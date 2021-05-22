@@ -92,6 +92,26 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/League"
+    
+  /leagues/addNewGame:
+    post:
+      tags: 
+        - users
+      summary: Add new game to the seesion and league
+      description: A JSON object contains all the detalis about the new game
+      requestBody:
+        required: true
+        content:
+          application/json:
+            type: object
+            schema:
+              $ref: '#/components/schemas/addNewGame'
+      
+      responses:
+        '201':
+          description: Game Added
+        '401':
+          description: The teams cant play on that date, its taken
 
 components:
   schemas:
@@ -206,3 +226,27 @@ components:
           type: string
           description: current season name
           example: "2020/2021"
+    addNewGame:
+        type: object
+        properties:
+          homeTeam:
+            type: string
+            description: Home team name 
+            example: Hapoel Beer-Sheva
+          awayTeam:
+            type: string
+            description: Away team name
+            example: Macabi Haifa
+          date:
+            type: date
+            description: the game date
+            example: 22/2/21 00:14:00
+          location:
+            type: string
+            description: where the game will take place, the estadion name
+            example: Beer-Sheva estadion
+          session:
+            type: string
+            description: the current session
+            example: 2021
+    
