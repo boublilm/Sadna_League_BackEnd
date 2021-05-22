@@ -8,6 +8,7 @@ tags:
   - name: Judges
   - name: Games
   - name: Leagues
+  - name: RoAF
 paths:
   /Register:
     post:
@@ -96,7 +97,7 @@ paths:
   /leagues/addNewGame:
     post:
       tags: 
-        - users
+        - Leagues
       summary: Add new game to the seesion and league
       description: A JSON object contains all the detalis about the new game
       requestBody:
@@ -112,6 +113,24 @@ paths:
           description: Game Added
         '401':
           description: The teams cant play on that date, its taken
+
+  /RoAF/Register:
+    post:
+      tags:
+        - RoAF
+      summary: Make an existing user a main referee
+      description: A logged in user will become a main referee
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RoAF"
+      responses:
+        "201":
+          description: Main referee Created Successfully
+        "400":
+          description: wrong input parameters
 
 components:
   schemas:
@@ -183,6 +202,47 @@ components:
           type: string
           description: league name
           example: Premier League
+    addNewGame:
+      type: object
+      properties:
+        homeTeam:
+          type: string
+          description: Home team name 
+          example: Hapoel Beer-Sheva
+        awayTeam:
+          type: string
+          description: Away team name
+          example: Macabi Haifa
+        date:
+          type: date
+          description: the game date
+          example: 22/2/21 00:14:00
+        location:
+          type: string
+          description: where the game will take place, the estadion name
+          example: Beer-Sheva estadion
+        session:
+          type: string
+          description: the current session
+          example: 2020/2021
+        mainJudge:
+          type: integer
+          description: judge ID
+          example: 1
+        judge1:
+          type: integer
+          description: judge ID
+          example: 2
+        judge2:
+          type: integer
+          description: judge ID
+          example: 3
+        judge3:
+          type: integer
+          description: judge ID
+          example: 4
+
+
     PlayerPreview:
       type: object
       properties:
@@ -226,27 +286,16 @@ components:
           type: string
           description: current season name
           example: "2020/2021"
-    addNewGame:
+    RoAF:
         type: object
         properties:
-          homeTeam:
+          leagueID:
+            type: integer
+            description: League ID
+            example: 1
+          season:
             type: string
-            description: Home team name 
-            example: Hapoel Beer-Sheva
-          awayTeam:
-            type: string
-            description: Away team name
-            example: Macabi Haifa
-          date:
-            type: date
-            description: the game date
-            example: 22/2/21 00:14:00
-          location:
-            type: string
-            description: where the game will take place, the estadion name
-            example: Beer-Sheva estadion
-          session:
-            type: string
-            description: the current session
-            example: 2021
+            description: current season name
+            example: "2020/2021"
+    
     
