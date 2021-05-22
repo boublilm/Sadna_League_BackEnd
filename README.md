@@ -1,6 +1,6 @@
-### League Back-End
+# League Back-End
 ## Students:
-# Shaked Almog
-# Maor Boublil
-# Dean Blinder
-# Nicole Kenigsberg
+### Shaked Almog
+### Maor Boublil
+### Dean Blinder
+### Nicole Kenigsberg
