@@ -50,6 +50,7 @@ const port = process.env.PORT || "3000";
 const auth = require("./routes/auth");
 const judges = require("./routes/judges");
 const leagues = require("./routes/league");
+const RoAF = require("./routes/RoAF");
 
 //#endregion
 
@@ -76,6 +77,7 @@ app.get("/alive", (req, res) => res.send("I'm alive"));
 // Routings
 app.use("/judges", judges);
 app.use("/leagues", leagues);
+app.use("/RoAF", RoAF);
 app.use(auth);
 
 app.use(function (err, req, res, next) {

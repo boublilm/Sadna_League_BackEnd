@@ -125,10 +125,10 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/RoAF"
+              $ref: '#/components/schemas/RoAF'
       responses:
         "201":
-          description: Main referee Created Successfully
+          description: RoAF Created Successfully
         "400":
           description: wrong input parameters
 
@@ -287,15 +287,15 @@ components:
           description: current season name
           example: "2020/2021"
     RoAF:
-        type: object
-        properties:
-          leagueID:
-            type: integer
-            description: League ID
-            example: 1
-          season:
-            type: string
-            description: current season name
-            example: "2020/2021"
+      type: object
+      properties:
+        leagueID:
+          type: integer
+          description: League ID
+          example: 1
+        season:
+          type: string
+          description: current season name
+          example: "2020/2021"
     
     

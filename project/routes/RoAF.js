@@ -4,11 +4,12 @@ const DButils = require("./utils/DButils");
 
 router.post("/Register", async (req, res, next) => {
   try {
+    console.log("1");
     if (req.session.user_id == undefined) {
       throw { status: 409, message: "User Not Logged In" };
     } else {
       const records = await DButils.execQuery(
-        `SELECT * FROM dbo.sadna_mainReferee WHERE user_id = '${req.session.user_id}' and league = '${req.body.leagueID}' and season = '${req.body.season}'`
+        `SELECT * FROM dbo.sadna_RoAF WHERE user_id = '${req.session.user_id}' and league = '${req.body.leagueID}' and season = '${req.body.season}'`
       );
       if (records.length >= 1) {
         throw {
@@ -28,9 +29,9 @@ router.post("/Register", async (req, res, next) => {
       }
       // Need To be added season check!
       await DButils.execQuery(
-        `INSERT INTO dbo.sadna_mainReferee (user_id, league, season) VALUES ('${req.session.user_id}', '${req.body.leagueID}', '${req.body.season}')`
+        `INSERT INTO dbo.sadna_RoAF (user_id, league, season) VALUES ('${req.session.user_id}', '${req.body.leagueID}', '${req.body.season}')`
       );
-      res.status(201).send("Judge Added Successfully");
+      res.status(201).send("RoAF Added Successfully");
     }
   } catch (error) {
     next(error);
