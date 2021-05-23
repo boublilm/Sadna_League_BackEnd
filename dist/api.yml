@@ -6,7 +6,6 @@ info:
 tags:
   - name: Auth
   - name: Judges
-  - name: Games
   - name: Leagues
   - name: RoAF
 paths:
@@ -93,10 +92,10 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/League"
-    
+
   /leagues/addNewGame:
     post:
-      tags: 
+      tags:
         - Leagues
       summary: Add new game to the seesion and league
       description: A JSON object contains all the detalis about the new game
@@ -106,26 +105,26 @@ paths:
           application/json:
             type: object
             schema:
-              $ref: '#/components/schemas/addNewGame'
-      
+              $ref: "#/components/schemas/addNewGame"
+
       responses:
-        '201':
+        "201":
           description: Game Added
-        '401':
+        "401":
           description: The teams cant play on that date, its taken
 
   /RoAF/Register:
     post:
       tags:
         - RoAF
-      summary: Make an existing user a RoFA
-      description: A logged in user will become a RoFA
+      summary: Make an existing user a RoAF
+      description: A logged in user will become a RoAF
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/RoAF'
+              $ref: "#/components/schemas/RoAF"
       responses:
         "201":
           description: RoAF Created Successfully
@@ -207,7 +206,7 @@ components:
       properties:
         homeTeam:
           type: string
-          description: Home team name 
+          description: Home team name
           example: Hapoel Beer-Sheva
         awayTeam:
           type: string
@@ -241,7 +240,6 @@ components:
           type: integer
           description: judge ID
           example: 4
-
 
     PlayerPreview:
       type: object
@@ -297,5 +295,3 @@ components:
           type: string
           description: current season name
           example: "2020/2021"
-    
-    
