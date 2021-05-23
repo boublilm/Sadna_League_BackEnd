@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router();
 const league_utils = require("./utils/league_utils");
 const DButils = require("../routes/utils/DButils");
+
 router.get("/getDetails", async (req, res, next) => {
   try {
     const league_details = await league_utils.getLeagueDetails();
@@ -10,7 +11,6 @@ router.get("/getDetails", async (req, res, next) => {
     next(error);
   }
 });
-
 
 router.post("/addNewGame", async(req, res, next) => {
   try{
@@ -36,11 +36,15 @@ router.post("/addNewGame", async(req, res, next) => {
     const judge1 = req.body.judge1;
     const judge2 = req.body.judge2;
     const judge3 = req.body.judge3
-    
+  
 
     //check the teams can play in this date
     const gameDB= await DButils.execQuery("SELECT * FROM dbo.sadna_games");
     if (gameDB.find((x) =>     x.GameDate === date && x.Season === season && x.HomeTeamName == home_team_name && x.AwayTeamName == away_team_name))
+
+    //check the teams can play in this date
+    const gameDB= await DButils.execQuery("SELECT * FROM dbo.sadna_games");
+    if (gameDB.find((x) =>     x.GameDate === date && x.Session === session && x.HomeTeamName == home_team_name && x.AwayTeamName == away_team_name))
       throw { status: 409, message: "The teams can't play on that date, it's taken" };
 
     // check the judges exsist
