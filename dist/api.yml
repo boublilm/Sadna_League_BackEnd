@@ -125,10 +125,10 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/RoAF"
+              $ref: '#/components/schemas/RoAF'
       responses:
         "201":
-          description: Main referee Created Successfully
+          description: RoAF Created Successfully
         "400":
           description: wrong input parameters
 
@@ -221,10 +221,14 @@ components:
           type: string
           description: where the game will take place, the estadion name
           example: Beer-Sheva estadion
-        session:
+        season:
           type: string
-          description: the current session
+          description: the current season
           example: 2020/2021
+        league:
+          type: int
+          description: league number
+          example: 1
         mainJudge:
           type: integer
           description: judge ID
@@ -232,15 +236,15 @@ components:
         judge1:
           type: integer
           description: judge ID
-          example: 2
+          example: 3
         judge2:
           type: integer
           description: judge ID
-          example: 3
+          example: 4
         judge3:
           type: integer
           description: judge ID
-          example: 4
+          example: 5
 
 
     PlayerPreview:
@@ -287,15 +291,15 @@ components:
           description: current season name
           example: "2020/2021"
     RoAF:
-        type: object
-        properties:
-          leagueID:
-            type: integer
-            description: League ID
-            example: 1
-          season:
-            type: string
-            description: current season name
-            example: "2020/2021"
+      type: object
+      properties:
+        leagueID:
+          type: integer
+          description: League ID
+          example: 1
+        season:
+          type: string
+          description: current season name
+          example: "2020/2021"
     
     
