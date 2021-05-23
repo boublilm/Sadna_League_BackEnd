@@ -118,8 +118,8 @@ paths:
     post:
       tags:
         - RoAF
-      summary: Make an existing user a main referee
-      description: A logged in user will become a main referee
+      summary: Make an existing user a RoFA
+      description: A logged in user will become a RoFA
       requestBody:
         required: true
         content:
