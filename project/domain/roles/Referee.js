@@ -2,6 +2,14 @@ function UpdateGameScore(game, score){
 
 }
 
-function UpdateGameEvent(game, event){
+function UpdateGameEventDuringGame(game, event){
     
+}
+
+function UpdateGameEventLogAfterGame(game, eventLog){
+    
+}
+
+function ShowAllReferees(){
+
 }
