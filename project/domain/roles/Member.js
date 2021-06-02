@@ -1,11 +1,12 @@
-function LoginRequest(username, password){
+function CheckUsername(username){
 
 }
 
-function Search(text){
+function ValidatePassword(username, password){
 
 }
 
-function Sort(results, field, order){
-    
+function CheckLoggedIn(username){
+
 }
+

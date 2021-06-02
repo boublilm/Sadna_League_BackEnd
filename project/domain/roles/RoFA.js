@@ -1,4 +1,8 @@
-function AddNewGame(season, league){
+function AddGames(season, league){
+    
+}
+
+function RemoveGame(game){
     
 }
 
@@ -11,5 +15,5 @@ function SetPointsPolicy(policy, season, league){
 }
 
 function RegisterJudges(judjes, season, league){
-    
+
 }

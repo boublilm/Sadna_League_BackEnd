@@ -18,6 +18,14 @@ function DeleteTeamManager(team, manager){
 
 }
 
+function AddNewTeamCoach(team, coach){
+
+}
+
+function DeleteTeamCoach(team, coach){
+
+}
+
 function AddContent(team, content){
 
 }
