@@ -1,0 +1,3 @@
+function DeleteTeam(team){
+    
+}
