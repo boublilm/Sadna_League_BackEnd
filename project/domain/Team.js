@@ -1,7 +1,3 @@
-function UpdateDetails(team, details){
+function UpdateDetails(team, details) {}
 
-}
-
-function AddContent(team, content){
-
-}
+function AddContent(team, content) {}

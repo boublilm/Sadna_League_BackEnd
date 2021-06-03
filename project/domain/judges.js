@@ -1,6 +1,6 @@
 var express = require("express");
 var router = express.Router();
-const DButils = require("../routes/utils/DButils");
+const DButils = require("../domain/utils/DButils");
 
 router.post("/Register", async (req, res, next) => {
   try {
@@ -36,7 +36,5 @@ router.post("/Register", async (req, res, next) => {
     next(error);
   }
 });
-
-
 
 module.exports = router;

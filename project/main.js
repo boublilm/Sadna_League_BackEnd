@@ -1,5 +1,5 @@
 //#region global imports
-const DButils = require("./routes/utils/DButils");
+const DButils = require("./domain/utils/DButils");
 const axios = require("axios");
 const bcrypt = require("bcryptjs");
 require("dotenv").config();
@@ -47,10 +47,10 @@ app.options("*", cors(corsConfig));
 
 const port = process.env.PORT || "3000";
 
-const auth = require("./routes/auth");
-const judges = require("./routes/judges");
-const leagues = require("./routes/league");
-const RoAF = require("./routes/RoAF");
+const auth = require("./domain/auth");
+const judges = require("./domain/judges");
+const leagues = require("./domain/league");
+const RoAF = require("./domain/RoAF");
 
 //#endregion
 
