@@ -30,27 +30,36 @@ async function AddGames(season, league) {
   if (referees.length < 2) {
     throw { status: 409, message: "Not Enough Referees!" };
   }
+  // Appending all possible games
+  let array_games = [];
   for (let i = 0; i < all_teams.length; i++) {
-    let home_team = all_teams[i].teamName;
     for (let j = i; j < all_teams.length; j++) {
       if (j == i) {
         continue;
       }
-      let away_team = all_teams[j].teamName;
-      let location = await DButils.execQuery(
-        `SELECT field FROM dbo.sadna_teams where league='${league_id}' and season='${season}' and teamName='${home_team}'`
-      );
-      await DButils.execQuery(
-        `INSERT INTO dbo.sadna_games (Season, League, HomeTeamName, AwayTeamName, GameDate, Location, MainReferee, SecondaryReferee) VALUES
-                ('${season}','${league}','${home_team}','${away_team}','${initial_date
-          .toISOString()
-          .slice(0, 19)
-          .replace("T", " ")}', '${location[0].field}','${
-          referees[0].user_id
-        }','${referees[1].user_id}')`
-      );
-      initial_date.setDate(initial_date.getDate() + 7);
+      array_games.push([all_teams[i], all_teams[j]]);
     }
+  }
+  // Shuffling games
+  array_games.sort(() => Math.random() - 0.5);
+
+  for (let i = 0; i < array_games.length; i++) {
+    let rand_home = Math.floor(Math.random() * 2);
+    let home_team = array_games[i][rand_home].teamName;
+    let away_team = array_games[i][1 - rand_home].teamName;
+    let location = await DButils.execQuery(
+      `SELECT field FROM dbo.sadna_teams where league='${league_id}' and season='${season}' and teamName='${home_team}'`
+    );
+    await DButils.execQuery(
+      `INSERT INTO dbo.sadna_games (Season, League, HomeTeamName, AwayTeamName, GameDate, Location, MainReferee, SecondaryReferee) VALUES
+              ('${season}','${league}','${home_team}','${away_team}','${initial_date
+        .toISOString()
+        .slice(0, 19)
+        .replace("T", " ")}', '${location[0].field}','${
+        referees[0].user_id
+      }','${referees[1].user_id}')`
+    );
+    initial_date.setDate(initial_date.getDate() + 7);
   }
 
   return true;
