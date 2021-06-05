@@ -13,6 +13,15 @@ router.get("/getDetails", async (req, res, next) => {
   }
 });
 
+router.get("/getAllGames", async (req, res, next) => {
+  try {
+    const all_games = await DButils.execQuery(`SELECT * FROM dbo.sadna_games`);
+    res.send(all_games);
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.post("/AddGames", async (req, res, next) => {
   try {
     // only the Representative of the Football Association can add game to a session

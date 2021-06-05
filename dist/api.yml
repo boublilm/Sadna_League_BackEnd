@@ -5,7 +5,6 @@ info:
   version: 1.0.0
 tags:
   - name: Auth
-  - name: Games
   - name: Leagues
   - name: RoAF
 paths:
@@ -92,11 +91,26 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/League"
+  /leagues/getAllGames:
+    get:
+      tags:
+        - Leagues
+      summary: Get all existing games - for Shahar to test easily
+      description: Returns a list of all games
+      responses:
+        "201":
+          description: List of games returned successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Game"
   /leagues/AddGames:
     post:
       tags:
         - Leagues
-      summary: Add new games to the seesion and league
+      summary: Add new games to the season and league - must be RoAF
       description: A JSON object contains league details
       requestBody:
         required: true
@@ -181,6 +195,45 @@ components:
           type: string
           description: league name
           example: Premier League
+    Game:
+      type: object
+      properties:
+        Game_id:
+          type: integer
+          description: Game's ID
+          example: 1
+        Season:
+          type: string
+          description: season
+          example: 2021/2022
+        League:
+          type: string
+          description: league's name
+          example: Premier League
+        HomeTeamName:
+          type: string
+          description: home teams's name
+          example: Hapoel Lehavim
+        AwayTeamName:
+          type: string
+          description: away teams's name
+          example: Hapoel Marmorak
+        GameDate:
+          type: datetime
+          description: datetime of the game
+          example: "YYYY-MM-DD HH:MM:SS"
+        Location:
+          type: string
+          description: home teams's field
+          example: Sinteti Lehavim
+        MainReferee:
+          type: integer
+          description: main referee's id
+          example: 1
+        SecondaryReferee:
+          type: integer
+          description: secondary referee's id
+          example: 2
     addNewGame:
       type: object
       properties:

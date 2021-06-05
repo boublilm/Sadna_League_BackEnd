@@ -33,10 +33,7 @@ async function AddGames(season, league) {
   // Appending all possible games
   let array_games = [];
   for (let i = 0; i < all_teams.length; i++) {
-    for (let j = i; j < all_teams.length; j++) {
-      if (j == i) {
-        continue;
-      }
+    for (let j = i + 1; j < all_teams.length; j++) {
       array_games.push([all_teams[i], all_teams[j]]);
     }
   }
