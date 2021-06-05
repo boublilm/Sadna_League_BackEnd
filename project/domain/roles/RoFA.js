@@ -68,6 +68,18 @@ function SetGamePolicy(policy, season, league) {}
 
 function SetPointsPolicy(policy, season, league) {}
 
-function RegisterJudges(judjes, season, league) {}
+function RegisterJudges(judges, season, league) {}
+
+async function verifyRoFA(user_id) {
+  let isMainRoAF = false;
+  const RoafDB = await DButils.execQuery("SELECT user_id FROM dbo.sadna_RoAF");
+  if (RoafDB.find((x) => x.user_id === user_id)) {
+    isMainRoAF = true;
+  }
+  if (!isMainRoAF) {
+    throw { status: 401, message: "Only RoAF can add new games" };
+  }
+}
 
 exports.AddGames = AddGames;
+exports.verifyRoFA = verifyRoFA;

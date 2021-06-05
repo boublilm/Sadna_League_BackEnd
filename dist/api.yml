@@ -6,7 +6,7 @@ info:
 tags:
   - name: Auth
   - name: Leagues
-  - name: RoAF
+  - name: RoFA
 paths:
   /Register:
     post:
@@ -59,10 +59,10 @@ paths:
       responses:
         "200":
           description: "the user has ben successfully logged out"
-  /RoAF/RegisterReferee:
+  /RoFA/RegisterReferee:
     post:
       tags:
-        - RoAF
+        - RoFA
       summary: Make an existing user a Referee
       description: A logged in user will become a Referee
       requestBody:
@@ -106,11 +106,11 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/Game"
-  /leagues/AddGames:
+  /RoFA/AddGames:
     post:
       tags:
-        - Leagues
-      summary: Add new games to the season and league - must be RoAF
+        - RoFA
+      summary: Add new games to the season and league - must be RoFA
       description: A JSON object contains league details
       requestBody:
         required: true
@@ -292,7 +292,7 @@ components:
           type: string
           description: current season name
           example: "2021/2022"
-    RoAF:
+    RoFA:
       type: object
       properties:
         leagueID:

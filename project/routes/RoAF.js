@@ -1,21 +1,30 @@
 var express = require("express");
 var router = express.Router();
 const DButils = require("../domain/utils/DButils");
+const RoFA_util = require("../domain/roles/RoFA");
 
-router.post("/RegisterReferee", async (req, res, next) => {
+router.post("/AddGames", async (req, res, next) => {
   try {
     // only the Representative of the Football Association can add game to a session
     // check the current user is RoAF
-    let isMainRoAF = false;
-    const RoafDB = await DButils.execQuery(
-      "SELECT user_id FROM dbo.sadna_RoAF"
+    await RoFA_util.verifyRoFA(req.session.user_id);
+
+    const state = await RoFA_utils.AddGames(
+      req.body.season,
+      req.body.league_name
     );
-    if (RoafDB.find((x) => x.user_id === req.session.user_id)) {
-      isMainRoAF = true;
-    }
-    if (!isMainRoAF) {
-      throw { status: 401, message: "Only RoAF can add a new referee" };
-    }
+
+    res.status(201).send("Games Added");
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.post("/RegisterReferee", async (req, res, next) => {
+  try {
+    // only the Representative of the Football Association can register a referee
+    // check the current user is RoAF
+    await RoFA_util.verifyRoFA(req.session.user_id);
 
     const records = await DButils.execQuery(
       `SELECT * FROM dbo.sadna_judges WHERE user_id = '${req.body.user_id}' and league = '${req.body.leagueID}' and season = '${req.body.season}'`

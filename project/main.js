@@ -77,7 +77,7 @@ app.get("/alive", (req, res) => res.send("I'm alive"));
 // Routings
 app.use("/judges", judges);
 app.use("/leagues", leagues);
-app.use("/RoAF", RoAF);
+app.use("/RoFA", RoAF);
 app.use(auth);
 
 app.use(function (err, req, res, next) {
