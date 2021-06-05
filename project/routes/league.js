@@ -33,7 +33,7 @@ router.post("/AddGames", async (req, res, next) => {
       req.body.league_name
     );
 
-    res.status(201).send("Game Added");
+    res.status(201).send("Games Added");
   } catch (error) {
     next(error);
   }
