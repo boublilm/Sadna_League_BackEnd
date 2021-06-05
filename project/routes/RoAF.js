@@ -9,10 +9,7 @@ router.post("/AddGames", async (req, res, next) => {
     // check the current user is RoAF
     await RoFA_util.verifyRoFA(req.session.user_id);
 
-    const state = await RoFA_utils.AddGames(
-      req.body.season,
-      req.body.league_name
-    );
+    await RoFA_util.AddGames(req.body.season, req.body.league_name);
 
     res.status(201).send("Games Added");
   } catch (error) {
