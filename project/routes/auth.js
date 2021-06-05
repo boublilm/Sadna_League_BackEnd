@@ -4,12 +4,12 @@ const Guest_Functions = require("../domain/roles/Guest");
 
 router.post("/Register", async (req, res, next) => {
   try {
-    const res = await Guest_Functions.Register(
+    const user = await Guest_Functions.Register(
       req.body.username,
       req.body.password,
       req
     );
-    if (res == false) {
+    if (user == false) {
       throw { status: 409, message: "Username taken" };
     }
     res.status(201).send("user created");

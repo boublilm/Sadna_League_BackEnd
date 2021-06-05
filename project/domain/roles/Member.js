@@ -1,4 +1,5 @@
 const DButils = require("../utils/DButils");
+const bcrypt = require("bcryptjs");
 
 async function CheckUsername(username) {
   const users = await DButils.execQuery("SELECT username FROM dbo.sadna_users");
