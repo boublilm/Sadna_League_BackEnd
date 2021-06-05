@@ -4,7 +4,6 @@ const DButils = require("../domain/utils/DButils");
 
 router.post("/Register", async (req, res, next) => {
   try {
-    console.log("1");
     if (req.session.user_id == undefined) {
       throw { status: 409, message: "User Not Logged In" };
     } else {
