@@ -2,7 +2,6 @@ var express = require("express");
 var router = express.Router();
 const league_utils = require("../domain/utils/league_utils");
 const DButils = require("../domain/utils/DButils");
-const RoFA_utils = require("../domain/roles/RoFA");
 
 router.get("/getDetails", async (req, res, next) => {
   try {
