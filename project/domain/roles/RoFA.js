@@ -81,5 +81,38 @@ async function verifyRoFA(user_id) {
   }
 }
 
+async function checkRefereeExists(user_id, leagueID, season) {
+  const records = await DButils.execQuery(
+    `SELECT * FROM dbo.sadna_judges WHERE user_id = '${user_id}' and league = '${leagueID}' and season = '${season}'`
+  );
+  if (records.length >= 1) {
+    throw {
+      status: 409,
+      message: "User is already registered to the league and season as a judge",
+    };
+  }
+}
+
+async function checkLeagueExists(leagueID) {
+  const league = await DButils.execQuery(
+    `SELECT * FROM dbo.sadna_leagues WHERE leagueID = '${leagueID}'`
+  );
+  if (league.length == 0) {
+    throw {
+      status: 409,
+      message: "League ID doesn't exist",
+    };
+  }
+}
+
+async function RegisterReferee(user_id, leagueID, season) {
+  await DButils.execQuery(
+    `INSERT INTO dbo.sadna_judges (user_id, league, season) VALUES ('${user_id}', '${leagueID}', '${season}')`
+  );
+}
+
 exports.AddGames = AddGames;
 exports.verifyRoFA = verifyRoFA;
+exports.checkRefereeExists = checkRefereeExists;
+exports.checkLeagueExists = checkLeagueExists;
+exports.RegisterReferee = RegisterReferee;

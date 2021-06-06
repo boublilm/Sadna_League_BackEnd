@@ -48,7 +48,7 @@ app.options("*", cors(corsConfig));
 const port = process.env.PORT || "3000";
 
 const auth = require("./routes/auth");
-const judges = require("./routes/judges");
+//const judges = require("./routes/judges");
 const leagues = require("./routes/league");
 const RoAF = require("./routes/RoAF");
 
@@ -75,7 +75,7 @@ app.use(function (req, res, next) {
 app.get("/alive", (req, res) => res.send("I'm alive"));
 
 // Routings
-app.use("/judges", judges);
+//app.use("/judges", judges);
 app.use("/leagues", leagues);
 app.use("/RoFA", RoAF);
 app.use(auth);
