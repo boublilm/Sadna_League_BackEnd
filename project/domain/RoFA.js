@@ -13,7 +13,7 @@ async function AddGames(season, league) {
   }
 
   //Add games by policy
-  await game_policy.AddGames(season, league, league_id);
+  await game_policy.addGamesByPolicy(season, league, league_id);
 }
 
 function RemoveGame(game) {
