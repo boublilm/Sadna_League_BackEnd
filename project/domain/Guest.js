@@ -11,7 +11,8 @@ async function LoginRequest(username, password) {
   return user;
 }
 
-async function Register(username, password, details) {
+async function Register(username, password, usertype, details) {
+  //check if username already exist in system
   if ((await Member_Functions.CheckUsername(username)) == false) {
     return false;
   }
@@ -22,7 +23,8 @@ async function Register(username, password, details) {
     parseInt(process.env.bcrypt_saltRounds)
   );
   password = hash_password;
-  // add the new username
+
+  // add the new user to DB
   await DButils.execQuery(
     `INSERT INTO dbo.sadna_users (username, password, first_name, last_name, country, email, profile_pic) VALUES ('${username}', '${hash_password}', '${details.body.firstname}', '${details.body.lastname}', '${details.body.country}', '${details.body.email}', '${details.body["image-url"]}')`
   );
