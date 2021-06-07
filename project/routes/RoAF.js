@@ -1,13 +1,16 @@
 var express = require("express");
 var router = express.Router();
 const DButils = require("../domain/utils/DButils");
-const RoFA_util = require("../domain/roles/RoFA");
+const RoFA_util = require("../domain/RoFA");
 
 router.post("/AddGames", async (req, res, next) => {
   try {
     // only the Representative of the Football Association can add game to a session
     // check the current user is RoAF
-    await RoFA_util.verifyRoFA(req.session.user_id);
+    const is_rofa = await RoFA_util.verifyRoFA(req.session.user_id);
+    if (!is_rofa) {
+      throw { status: 401, message: "Only RoAF can add new games" };
+    }
 
     await RoFA_util.AddGames(req.body.season, req.body.league_name);
 

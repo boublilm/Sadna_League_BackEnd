@@ -84,9 +84,7 @@ async function verifyRoFA(user_id) {
   if (RoafDB.find((x) => x.user_id === user_id)) {
     isMainRoAF = true;
   }
-  if (!isMainRoAF) {
-    throw { status: 401, message: "Only RoAF can add new games" };
-  }
+  return isMainRoAF;
 }
 
 async function checkRefereeExists(user_id, leagueID, season) {
