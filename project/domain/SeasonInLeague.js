@@ -39,5 +39,15 @@ async function getAllGames(season, league){
       return games;
 }
 
+async function checkRefereeExists(user_id, leagueID, season) {
+    const records = await DButils.execQuery(
+      `SELECT * FROM dbo.sadna_judges WHERE user_id = '${user_id}' and league = '${leagueID}' and season = '${season}'`
+    );
+    if (records.length >0) {
+        return true;
+    }
+  }
+
 exports.validateSeasonLeague = validateSeasonLeague;
 exports.getAllGames = getAllGames;
+exports.checkRefereeExists = checkRefereeExists;

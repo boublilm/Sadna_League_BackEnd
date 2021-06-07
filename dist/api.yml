@@ -284,10 +284,10 @@ components:
           type: integer
           description: user that will be assigned as a judge
           example: 3
-        leagueID:
-          type: integer
-          description: League ID
-          example: 1
+        league:
+          type: string
+          description: League name
+          example: "Premier League"
         season:
           type: string
           description: current season name
