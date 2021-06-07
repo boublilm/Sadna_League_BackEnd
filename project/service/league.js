@@ -5,7 +5,7 @@ const DButils = require("../DB Access/DButils");
 
 router.get("/getDetails", async (req, res, next) => {
   try {
-    const league_details = await getLeagueDetails();
+    const league_details = await league_utils.getLeagueDetails();
     res.send(league_details);
   } catch (error) {
     next(error);
