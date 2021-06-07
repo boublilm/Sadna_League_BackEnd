@@ -4,6 +4,7 @@ const axios = require("axios");
 const bcrypt = require("bcryptjs");
 require("dotenv").config();
 //#endregion
+
 //#region express configures
 var express = require("express");
 var path = require("path");
@@ -47,10 +48,10 @@ app.options("*", cors(corsConfig));
 
 const port = process.env.PORT || "3000";
 
-const auth = require("./routes/auth");
-//const judges = require("./routes/judges");
-const leagues = require("./routes/league");
-const RoAF = require("./routes/RoAF");
+const auth = require("./service/auth");
+//const judges = require("./service/judges");
+const leagues = require("./service/league");
+const RoAF = require("./service/RoAF");
 
 //#endregion
 
@@ -89,8 +90,3 @@ const server = app.listen(port, () => {
   console.log(`Server listen on port ${port}`);
 });
 
-// process.on("SIGINT", function () {
-//   if (server) {
-//     server.close(() => console.log("server closed"));
-//   }
-// });
