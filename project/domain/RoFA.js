@@ -62,13 +62,21 @@ async function AddGames(season, league) {
   return true;
 }
 
-function RemoveGame(game) {}
+function RemoveGame(game) {
 
-function SetGamePolicy(policy, season, league) {}
+}
 
-function SetPointsPolicy(policy, season, league) {}
+function SetGamePolicy(policy, season, league) {
 
-function RegisterJudges(judges, season, league) {}
+}
+
+function SetPointsPolicy(policy, season, league) {
+  
+}
+
+function RegisterJudges(judges, season, league) {
+
+}
 
 async function verifyRoFA(user_id) {
   let isMainRoAF = false;
