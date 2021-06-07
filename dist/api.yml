@@ -124,6 +124,27 @@ paths:
           description: Game Added
         "401":
           description: The teams cant play on that date, its taken
+  /RoFA/assignReferee/{user_id}:
+    post:
+      tags:
+        - RoFA
+      summary: assign account to be referee
+      parameters:
+        - in: path
+          name: user_id
+          description: user's id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: user has been assigned to be a referee
+        "404":
+          description: user id not found
+        "401":
+          description: user is not authorized
+        "402":
+          description: user is already a referee
 
 components:
   schemas:

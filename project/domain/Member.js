@@ -2,14 +2,16 @@ const DButils = require("../DB Access/DButils");
 const user_utils = require("./utils/user_utils");
 const bcrypt = require("bcryptjs");
 
-async function CheckUsername(username) { //verify if username exist
+async function CheckUsername(username) {
+  //verify if username exist
   const users = await DButils.execQuery("SELECT username FROM dbo.sadna_users");
 
   if (users.find((x) => x.username === username)) return false;
   return true;
 }
 
-async function ValidatePassword(username, password) { //validat user password match the one in DB
+async function ValidatePassword(username, password) {
+  //validat user password match the one in DB
   const user = (
     await DButils.execQuery(
       `SELECT * FROM dbo.sadna_users WHERE username = '${username}'`
@@ -23,10 +25,19 @@ async function ValidatePassword(username, password) { //validat user password ma
   return user;
 }
 
-function CheckLoggedIn(username) { //check if user is already logged in
+function CheckLoggedIn(username) {
+  //check if user is already logged in
   return user_utils.verifyLoggedIn(username);
+}
+
+async function Checkuserid(user_id) {
+  //verify if user_id exist
+  const users = await DButils.execQuery("SELECT user_id FROM dbo.sadna_users");
+  if (users.find((x) => x.user_id == user_id)) return true;
+  return false;
 }
 
 exports.CheckUsername = CheckUsername;
 exports.ValidatePassword = ValidatePassword;
 exports.CheckLoggedIn = CheckLoggedIn;
+exports.Checkuserid = Checkuserid;

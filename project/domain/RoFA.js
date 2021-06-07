@@ -29,7 +29,7 @@ function UnregisterJudges(judges, season, league) {}
 async function verifyRoFA(user_id) {
   let isMainRoAF = false;
   const RoafDB = await DButils.execQuery(
-    "SELECT user_id FROM dbo.sadna_roles WHERE role = 'RoAF'"
+    "SELECT user_id FROM dbo.sadna_roles WHERE role = 'RoFA'"
   );
   if (RoafDB.find((x) => x.user_id === user_id)) {
     isMainRoAF = true;
@@ -50,8 +50,18 @@ async function checkLeagueExists(leagueID) {
 }
 
 async function RegisterRefereeToSeasonLeague(user_id, leagueID, season) {
+  //Add user as referee
   await DButils.execQuery(
     `INSERT INTO dbo.sadna_judges (user_id, league, season) VALUES ('${user_id}', '${leagueID}', '${season}')`
+  );
+}
+
+async function assignUserasReferee(user_id) {
+  //update user to be a referee
+  await DButils.execQuery(
+    `UPDATE dbo.sadna_roles
+    SET role = 'Referee'
+    WHERE user_id = '${user_id}'`
   );
 }
 
@@ -59,3 +69,4 @@ exports.AddGames = AddGames;
 exports.verifyRoFA = verifyRoFA;
 exports.checkLeagueExists = checkLeagueExists;
 exports.RegisterRefereeToSeasonLeague = RegisterRefereeToSeasonLeague;
+exports.assignUserasReferee = assignUserasReferee;

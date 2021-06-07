@@ -1,7 +1,7 @@
 const DButils = require("../DB Access/DButils");
 const Member_Functions = require("./Member");
 const bcrypt = require("bcryptjs");
-const possible_roles = ["Fan", "Referee"];
+const possible_roles = ["Fan"];
 async function LoginRequest(username, password) {
   // check that username exists & the password is correct
   const user = await Member_Functions.ValidatePassword(username, password);
@@ -20,7 +20,8 @@ async function Register(username, password, usertype, details) {
   if (!possible_roles.includes(usertype)) {
     throw {
       status: 409,
-      message: "Unkown User Type - Please Pick Referee or Fan",
+      message:
+        "Unkown User Type - Please Pick Fan (More Elements will be added in the future)",
     };
   }
 
