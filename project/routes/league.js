@@ -1,7 +1,7 @@
 var express = require("express");
 var router = express.Router();
-const league_utils = require("../domain/League");
-const DButils = require("../DB Access/DButils");
+const league_utils = require("../domain/utils/league_utils");
+const DButils = require("../domain/utils/DButils");
 
 router.get("/getDetails", async (req, res, next) => {
   try {
@@ -13,7 +13,12 @@ router.get("/getDetails", async (req, res, next) => {
 });
 
 router.get("/getAllGames", async (req, res, next) => {
-
+  try {
+    const all_games = await DButils.execQuery(`SELECT * FROM dbo.sadna_games`);
+    res.send(all_games);
+  } catch (error) {
+    next(error);
+  }
 });
 
 module.exports = router;
