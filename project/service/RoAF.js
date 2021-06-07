@@ -3,7 +3,7 @@ var router = express.Router();
 const DButils = require("../DB Access/DButils");
 const rofa = require("../domain/RoFA");
 const Referee = require("../domain/Referee");
-const season_league = require("../domain/SeasonInLeague")
+const season_league = require("../domain/SeasonInLeague");
 
 router.post("/AddGames", async (req, res, next) => {
   try {
@@ -31,12 +31,12 @@ router.post("/RegisterReferee", async (req, res, next) => {
 
     const season = req.body.season;
     const league = req.body.league;
-    const league_id = season_league.validateSeasonLeague(season, league); //throws error if not
+    const league_id = await season_league.validateSeasonLeague(season, league); //throws error if not
     const referee_id = req.body.user_id;
 
     //check if referee user exist
     const user_exist = await Referee.CheckRefereeExist(referee_id);
-    if (!user_exist){
+    if (!user_exist) {
       throw {
         status: 409,
         message: "User is not a referee or doesn't exist in system",
@@ -45,11 +45,16 @@ router.post("/RegisterReferee", async (req, res, next) => {
 
     await league_id;
     //check if referee is in league already
-    const referee_signed = await season_league.checkRefereeExists(referee_id, league_id, season);
-    if (referee_signed){
+    const referee_signed = await season_league.checkRefereeExists(
+      referee_id,
+      league_id,
+      season
+    );
+    if (referee_signed) {
       throw {
         status: 409,
-        message: "User is already registered to the league and season as a judge",
+        message:
+          "User is already registered to the league and season as a judge",
       };
     }
 

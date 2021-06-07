@@ -16,29 +16,21 @@ async function AddGames(season, league) {
   await game_policy.addGamesByPolicy(season, league, league_id);
 }
 
-function RemoveGame(game) {
+function RemoveGame(game) {}
 
-}
+function SetGamePolicy(policy, season, league) {}
 
-function SetGamePolicy(policy, season, league) {
+function SetPointsPolicy(policy, season, league) {}
 
-}
+function RegisterJudges(judges, season, league) {}
 
-function SetPointsPolicy(policy, season, league) {
-  
-}
-
-function RegisterJudges(judges, season, league) {
-
-}
-
-function UnregisterJudges(judges, season, league) {
-
-}
+function UnregisterJudges(judges, season, league) {}
 
 async function verifyRoFA(user_id) {
   let isMainRoAF = false;
-  const RoafDB = await DButils.execQuery("SELECT user_id FROM dbo.sadna_RoAF");
+  const RoafDB = await DButils.execQuery(
+    "SELECT user_id FROM dbo.sadna_roles WHERE role = 'RoAF'"
+  );
   if (RoafDB.find((x) => x.user_id === user_id)) {
     isMainRoAF = true;
   }

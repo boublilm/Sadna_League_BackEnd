@@ -9,7 +9,7 @@ router.post("/Register", async (req, res, next) => {
     const user = await Guest_Functions.Register(
       req.body.username,
       req.body.password,
-      req.body.usertype,
+      req.body.role,
       req
     );
     if (user == false) {
@@ -34,8 +34,11 @@ router.post("/Login", async (req, res, next) => {
 
     //Check if user already logged in
     const user_already_connected = Member_Functions.CheckLoggedIn(user.user_id);
-    if (user_already_connected){
-      throw { status: 401, message: "User already connected with another device" };
+    if (user_already_connected) {
+      throw {
+        status: 401,
+        message: "User already connected with another device",
+      };
     }
 
     // Login user
@@ -50,7 +53,7 @@ router.post("/Login", async (req, res, next) => {
 
 router.post("/Logout", function (req, res) {
   user_utils.logout(req.session.user_id);
-  req.session.reset(); 
+  req.session.reset();
   res.send({ success: true, message: "logout succeeded" });
 });
 

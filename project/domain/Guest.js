@@ -1,7 +1,7 @@
 const DButils = require("../DB Access/DButils");
 const Member_Functions = require("./Member");
 const bcrypt = require("bcryptjs");
-
+const possible_roles = ["Fan", "Referee"];
 async function LoginRequest(username, password) {
   // check that username exists & the password is correct
   const user = await Member_Functions.ValidatePassword(username, password);
@@ -17,6 +17,13 @@ async function Register(username, password, usertype, details) {
     return false;
   }
 
+  if (!possible_roles.includes(usertype)) {
+    throw {
+      status: 409,
+      message: "Unkown User Type - Please Pick Referee or Fan",
+    };
+  }
+
   //hash the password
   let hash_password = bcrypt.hashSync(
     password,
@@ -27,6 +34,15 @@ async function Register(username, password, usertype, details) {
   // add the new user to DB
   await DButils.execQuery(
     `INSERT INTO dbo.sadna_users (username, password, first_name, last_name, country, email, profile_pic) VALUES ('${username}', '${hash_password}', '${details.body.firstname}', '${details.body.lastname}', '${details.body.country}', '${details.body.email}', '${details.body["image-url"]}')`
+  );
+  // Get User_id
+  const user = await DButils.execQuery(
+    `SELECT user_id FROM dbo.sadna_users WHERE username = '${username}'`
+  );
+
+  // Assign role to user
+  await DButils.execQuery(
+    `INSERT INTO dbo.sadna_roles (user_id, role) VALUES ('${user[0].user_id}', '${usertype}')`
   );
   return true;
 }

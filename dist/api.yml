@@ -157,6 +157,10 @@ components:
             is a number and a special char
           format: password
           example: lady@56
+        role:
+          type: string
+          description: user's role
+          example: Fan
         email:
           pattern: email
           type: string
