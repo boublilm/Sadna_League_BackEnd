@@ -24,7 +24,7 @@ async function ValidatePassword(username, password) { //validat user password ma
 }
 
 function CheckLoggedIn(username) { //check if user is already logged in
-  return user_utils.CheckLoggedIn(username);
+  return user_utils.verifyLoggedIn(username);
 }
 
 exports.CheckUsername = CheckUsername;

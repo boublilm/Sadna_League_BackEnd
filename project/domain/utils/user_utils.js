@@ -12,7 +12,7 @@ function logout(username){
 }
 
 function verifyLoggedIn(username){
-    return logged_users.contains(username);
+    return logged_users.includes(username);
 }
 
 exports.login = login;
