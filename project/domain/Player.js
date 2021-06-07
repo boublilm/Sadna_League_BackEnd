@@ -1,7 +1,7 @@
-function UpdateDetails(player, details){
+function UpdatePersonalDetails(player, details){
 
 }
 
-function AddContent(player, content){
+function AddContentToPersonalPage(player, content){
 
 }

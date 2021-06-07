@@ -1,7 +1,7 @@
-function UpdateDetails(coach, details){
+function UpdatePersonalDetails(coach, details){
 
 }
 
-function AddContent(coach, content){
+function AddContentToPersonalPage(coach, content){
 
 }
