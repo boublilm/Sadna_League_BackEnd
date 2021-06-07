@@ -12,6 +12,7 @@ router.post("/AddGames", async (req, res, next) => {
       throw { status: 401, message: "Only RoAF can add new games" };
     }
 
+    //add the games for season in league automatically by current policy
     await RoFA_util.AddGames(req.body.season, req.body.league_name);
 
     res.status(201).send("Games Added");
