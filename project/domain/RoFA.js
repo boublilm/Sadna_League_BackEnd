@@ -29,6 +29,10 @@ function SetPointsPolicy(policy, season, league) {
 }
 
 function RegisterJudges(judges, season, league) {
+  
+}
+
+function UnregisterJudges(judges, season, league) {
 
 }
 
