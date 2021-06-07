@@ -1,6 +1,6 @@
 var express = require("express");
 var router = express.Router();
-const DButils = require("../domain/utils/DButils");
+const DButils = require("../DB Access/DButils");
 const RoFA_util = require("../domain/RoFA");
 
 router.post("/AddGames", async (req, res, next) => {

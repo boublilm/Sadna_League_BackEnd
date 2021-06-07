@@ -1,11 +1,11 @@
 var express = require("express");
 var router = express.Router();
-const league_utils = require("../domain/utils/league_utils");
-const DButils = require("../domain/utils/DButils");
+const league_utils = require("../domain/League");
+const DButils = require("../DB Access/DButils");
 
 router.get("/getDetails", async (req, res, next) => {
   try {
-    const league_details = await league_utils.getLeagueDetails();
+    const league_details = await getLeagueDetails();
     res.send(league_details);
   } catch (error) {
     next(error);

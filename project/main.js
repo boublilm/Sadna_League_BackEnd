@@ -1,5 +1,5 @@
 //#region global imports
-const DButils = require("./domain/utils/DButils");
+const DButils = require("./DB Access/DButils");
 const axios = require("axios");
 const bcrypt = require("bcryptjs");
 require("dotenv").config();

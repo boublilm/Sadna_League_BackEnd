@@ -1,4 +1,4 @@
-const DButils = require("../utils/DButils");
+const DButils = require("../DB Access/DButils");
 const Member_Functions = require("./Member");
 const bcrypt = require("bcryptjs");
 

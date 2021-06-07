@@ -1,4 +1,4 @@
-const DButils = require("../utils/DButils");
+const DButils = require("../DB Access/DButils");
 
 
 function addGamesByPolicy(season, league, league_id){
