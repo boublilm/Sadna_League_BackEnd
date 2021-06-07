@@ -1,5 +1,5 @@
 const DButils = require("../DB Access/DButils");
-const user_utils = require("../utils/user_utils");
+const user_utils = require("./utils/user_utils");
 const bcrypt = require("bcryptjs");
 
 async function CheckUsername(username) { //verify if username exist

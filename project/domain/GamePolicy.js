@@ -1,7 +1,7 @@
 const DButils = require("../DB Access/DButils");
 
 
-function addGamesByPolicy(season, league, league_id){
+async function addGamesByPolicy(season, league, league_id){
     // Get All league team names
     const all_teams = await DButils.execQuery(
         `SELECT teamName FROM dbo.sadna_teams where league='${league_id}'`
