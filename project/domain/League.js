@@ -1,20 +1,14 @@
 const DButils = require("../DB Access/DButils");
 
-async function getAllLeagueGames(){
+async function getAllLeagueGames() {}
 
-}
+function getAllLeagues() {}
 
-function getAllLeasues(){
-
-}
-
-function getAllSeasonsInLeague(league){
-    
-}
+function getAllSeasonsInLeague(league) {}
 
 async function getLeagueDetails() {
-    const leagues = await DButils.execQuery(`SELECT * FROM dbo.sadna_leagues`);
-    return leagues;
+  const leagues = await DButils.execQuery(`SELECT * FROM dbo.sadna_leagues`);
+  return leagues;
 }
 
 exports.getLeagueDetails = getLeagueDetails;
