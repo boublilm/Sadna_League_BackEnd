@@ -66,7 +66,7 @@ router.post("/RegisterReferee", async (req, res, next) => {
     const user_exist = await Referee.CheckRefereeExist(referee_id);
     if (!user_exist) {
       throw {
-        status: 409,
+        status: 404,
         message: "User is not a referee or doesn't exist in system",
       };
     }

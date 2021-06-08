@@ -13,7 +13,7 @@ router.post("/Register", async (req, res, next) => {
       req
     );
     if (user == false) {
-      throw { status: 409, message: "Username taken" };
+      throw { status: 400, message: "Username taken" };
     }
     res.status(201).send("user created");
   } catch (error) {
