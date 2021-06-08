@@ -16,16 +16,6 @@ async function AddGames(season, league) {
   await game_policy.addGamesByPolicy(season, league, league_id);
 }
 
-function RemoveGame(game) {}
-
-function SetGamePolicy(policy, season, league) {}
-
-function SetPointsPolicy(policy, season, league) {}
-
-function RegisterJudges(judges, season, league) {}
-
-function UnregisterJudges(judges, season, league) {}
-
 async function verifyRoFA(user_id) {
   let isMainRoAF = false;
   const RoafDB = await DButils.execQuery(
@@ -63,6 +53,22 @@ async function assignUserasReferee(user_id) {
     SET role = 'Referee'
     WHERE user_id = '${user_id}'`
   );
+}
+
+function RemoveGame(game) {}
+
+function SetGamePolicy(policy, season, league) {}
+
+function SetPointsPolicy(policy, season, league) {}
+
+function UnassignJudges(judges, season, league) {}
+
+function approveAddTeam(team){
+
+}
+
+function approveDeleteTeam(team){
+  
 }
 
 exports.AddGames = AddGames;

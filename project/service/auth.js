@@ -2,7 +2,7 @@ var express = require("express");
 var router = express.Router();
 const Guest_Functions = require("../domain/Guest");
 const Member_Functions = require("../domain/Member");
-const user_utils = require("../domain/utils/user_utils");
+const system_manager = require("../domain/SystemManager");
 
 router.post("/Register", async (req, res, next) => {
   try {
@@ -43,7 +43,7 @@ router.post("/Login", async (req, res, next) => {
 
     // Login user
     req.session.user_id = user.user_id;
-    user_utils.login(user.user_id);
+    system_manager.login(user.user_id);
 
     res.status(200).send("login succeeded");
   } catch (error) {
@@ -52,7 +52,7 @@ router.post("/Login", async (req, res, next) => {
 });
 
 router.post("/Logout", function (req, res) {
-  user_utils.logout(req.session.user_id);
+  system_manager.logout(req.session.user_id);
   req.session.reset();
   res.send({ success: true, message: "logout succeeded" });
 });

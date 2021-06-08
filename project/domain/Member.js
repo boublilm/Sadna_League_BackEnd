@@ -1,5 +1,5 @@
 const DButils = require("../DB Access/DButils");
-const user_utils = require("./utils/user_utils");
+const system_manager = require("./SystemManager");
 const bcrypt = require("bcryptjs");
 
 async function CheckUsername(username) {
@@ -27,7 +27,7 @@ async function ValidatePassword(username, password) {
 
 function CheckLoggedIn(username) {
   //check if user is already logged in
-  return user_utils.verifyLoggedIn(username);
+  return system_manager.verifyLoggedIn(username);
 }
 
 async function Checkuserid(user_id) {
