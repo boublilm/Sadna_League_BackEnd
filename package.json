@@ -1,6 +1,6 @@
 {
   "devDependencies": {
-    "jest": "^27.0.3"
+    "jest": "^27.0.4"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -10,5 +10,9 @@
     "express": "^4.17.1",
     "morgan": "^1.10.0",
     "mssql": "^7.1.0"
+  },
+  "scripts": {
+    "test": "jest"
   }
+
 }
