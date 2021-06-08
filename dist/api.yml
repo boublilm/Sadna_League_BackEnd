@@ -25,6 +25,8 @@ paths:
           description: A new user has been added
         "400":
           description: wrong input parameters
+        "409":
+          description: Unkown User Type - Please Pick Fan (More Elements will be added in the future)
   /Login:
     post:
       tags:
@@ -74,8 +76,10 @@ paths:
       responses:
         "201":
           description: Referee Created Successfully
-        "400":
-          description: wrong input parameters
+        "401":
+          description: user is not authorized
+        "404":
+          description: Data not found in db
   /leagues/getDetails:
     get:
       tags:
@@ -123,7 +127,9 @@ paths:
         "201":
           description: Game Added
         "401":
-          description: The teams cant play on that date, its taken
+          description: Only RoAF can add new games
+        "409":
+          description: League ID doesn't exist
   /RoFA/assignReferee/{user_id}:
     post:
       tags:
