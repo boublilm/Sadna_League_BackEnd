@@ -21,5 +21,18 @@ async function LogoutUC(){
     }
 }
 
+async function AssignRefereeUC(usename){
+    try{
+        const all_users = await axios.get(`${api_domain}/Users`);
+        const user = all_users.find(x => x.username == username);
+        const assign_response = await axios.get(`${api_domain}/assignReferee/${user.user_id}`);
+        return assign_response;
+    } catch(error){
+        return error;
+    }
+
+}
+
 exports.LoginUC = LoginUC;
 exports.LogoutUC = LogoutUC;
+exports.AssignRefereeUC = AssignRefereeUC;

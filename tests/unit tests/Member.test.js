@@ -1,5 +1,5 @@
 const {test,expect} = require('@jest/globals');
-const {CheckUsername,ValidatePassword,Checkuserid} = require('../Member');
+const {CheckUsername,ValidatePassword,Checkuserid} = require('../../project/domain/Member');
 
 test('test CheckUsername NOT exists',async()=>{
     const ans = await CheckUsername("userNameNotExsist");

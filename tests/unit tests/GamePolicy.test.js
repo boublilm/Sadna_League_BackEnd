@@ -1,5 +1,5 @@
 const {test,expect} = require('@jest/globals');
-const {addGamesByPolicy} = require('../GamePolicy');
+const {addGamesByPolicy} = require('../../project/domain/GamePolicy');
 
 
 test('test addGamesByPolicy VALID ',async()=>{

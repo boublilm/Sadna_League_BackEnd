@@ -1,7 +1,10 @@
 {
 
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "test:unit": "jest --watchAll --testPathPattern=tests/unit tests",
+    "test:integration": "jest --watchAll --testPathPattern=tests/integration tests",
+    "test:acceptance": "jest --watchAll jest --testPathPattern=tests/acceptance tests"
   },
   "devDependencies": {
     "jest": "^27.0.4"
@@ -14,9 +17,6 @@
     "express": "^4.17.1",
     "morgan": "^1.10.0",
     "mssql": "^7.1.0"
-  },
-  "scripts": {
-    "test": "jest"
   }
 
 }

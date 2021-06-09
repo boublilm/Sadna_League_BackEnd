@@ -1,5 +1,5 @@
 const {test,expect} = require('@jest/globals');
-const {LoginRequest} = require('../Guest');
+const {LoginRequest} = require('../../project/domain/Guest');
 
 
 test('test LoginRequest VALID ',async()=>{

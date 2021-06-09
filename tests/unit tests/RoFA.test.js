@@ -1,5 +1,5 @@
 const {test,expect} = require('@jest/globals');
-const {verifyRoFA,checkLeagueExists,RegisterRefereeToSeasonLeague} = require('../RoFA');
+const {verifyRoFA,checkLeagueExists,RegisterRefereeToSeasonLeague} = require('../../project/domain/RoFA');
 
 
 test('test verifyRoFA EXIST ',async()=>{

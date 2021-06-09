@@ -1,5 +1,5 @@
 const {test,expect} = require('@jest/globals');
-const {CheckRefereeExist} = require('../Referee');
+const {CheckRefereeExist} = require('../../project/domain/Referee');
 
 test('test CheckRefereeExist EXIST',async()=>{
     const ans = await CheckRefereeExist(3);
