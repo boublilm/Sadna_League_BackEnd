@@ -2,14 +2,11 @@ const DButils = require("../DB Access/DButils");
 const season_league = require("../domain/SeasonInLeague");
 const game_policy = require("../domain/GamePolicy");
 
-async function AddGames(season, league) {
-  //CHECK if league&season is OK
-  let league_id = await season_league.validateSeasonLeague(season, league);
-
+async function AddGames(season, league, league_id) {
   // CHECKS IF GAMES ALREADY CREATED for this season in league
   const games = await season_league.getAllGames(season, league);
   if (games.length > 0) {
-    throw { status: 401, message: "Games Already Created" };
+    return -1;
   }
 
   //Add games by policy
@@ -21,7 +18,7 @@ async function verifyRoFA(user_id) {
   const RoafDB = await DButils.execQuery(
     "SELECT user_id FROM dbo.sadna_roles WHERE role = 'RoFA'"
   );
-  if (RoafDB.find((x) => x.user_id === user_id)) {
+  if (RoafDB.find((x) => x.user_id == user_id)) {
     isMainRoAF = true;
   }
   return isMainRoAF;
