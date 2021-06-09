@@ -102,49 +102,76 @@ test('test checkLeagueExists NOT EXIST',async()=>{
 });
 
 test('test RegisterRefereeToSeasonLeague NOT EXIST ',async()=>{
-    let user_id = 7;
+  let ids = await DButils.execQuery(
+    `SELECT user_id FROM dbo.sadna_judges`
+  );
+    let notIn=false
+    let user_id = 100
+    while(notIn == false){
+        let isFind =  ids.find((x) => x.user_id === user_id)
+        if(!isFind){
+            notIn = true
+        }
+        else{
+        user_id = user_id +1
+        }
+
+    }
     let league = 2;
-    let season = '2021/2022'
+    let season = '2021/2022_test'
     await RegisterRefereeToSeasonLeague(user_id,league,season);
     const ans = await DButils.execQuery(
         `SELECT * FROM dbo.sadna_judges WHERE user_id = '${user_id}' and league='${league}' and season='${season}'`
       );
-    expect(ans.length).not.toBe(0);
+    expect(ans.length).toBe(1);
     await DButils.execQuery(
         `DELETE FROM dbo.sadna_judges WHERE user_id = '${user_id}' and league='${league}' and season='${season}'`
       );
 });
 
 test('test RegisterRefereeToSeasonLeague EXIST ',async()=>{
-    let user_id = 1;
-    let league = 1;
-    let season = '2021/2022'
+  let judges = await DButils.execQuery(
+    `SELECT * FROM dbo.sadna_judges`
+  );
+
+    let user_id = judges[0].user_id;
+    let league = judges[0].league;
+    let season = judges[0].season;
     await RegisterRefereeToSeasonLeague(user_id,league,season);
     const ans = await DButils.execQuery(
         `SELECT * FROM dbo.sadna_judges WHERE user_id = '${user_id}' and league='${league}' and season='${season}'`
       );
-    expect(ans.length).not.toBe(0);
+    expect(ans.length).toBe(1);
 });
 
-// test('test assignUserasReferee OK ',async()=>{
-//   const roles = await DButils.execQuery(
-//     `SELECT * FROM dbo.sadna_roles WHERE role != 'Referee'`
-//   );
-//     let user_id = roles[0].user_id
-//     const originalRole = roles[0].role
-//     // const originalRole = await DButils.execQuery(
-//     //     `SELECT role FROM dbo.sadna_roles WHERE user_id = '${user_id}'`
-//     //   );
+test('test assignUserasReferee OK ',async()=>{
 
-//     await assignUserasReferee(user_id);
-//     const ans = await DButils.execQuery(
-//         `SELECT role FROM dbo.sadna_roles WHERE user_id = '${user_id}'`
-//       );
-//     expect(ans[0].role).toStrictEqual('Referee')
-//     await DButils.execQuery(
-//         `UPDATE dbo.sadna_roles
-//         SET role = '${originalRole}'
-//         WHERE user_id = '${user_id}'`
-//       );
+  let ids = await DButils.execQuery(
+    `SELECT user_id FROM dbo.sadna_roles`
+  );
+    let notIn=false
+    let user_id = 100
+    while(notIn == false){
+        let isFind =  ids.find((x) => x.user_id === user_id)
+        if(!isFind){
+            notIn = true
+        }
+        else{
+        user_id = user_id +1
+        }
 
-// });
+    }
+    await DButils.execQuery(
+      `INSERT INTO dbo.sadna_roles (user_id,role)
+       VALUES ('${user_id}','Fan')`
+    );
+
+    await assignUserasReferee(user_id);
+    const ans = await DButils.execQuery(
+        `SELECT role FROM dbo.sadna_roles WHERE user_id = '${user_id}'`
+      );
+    expect(ans[0].role).toStrictEqual('Referee')
+    await DButils.execQuery(
+      `DELETE FROM dbo.sadna_roles WHERE user_id = '${user_id}'`
+    );
+});

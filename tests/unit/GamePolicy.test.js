@@ -12,22 +12,12 @@ test('test addGamesByPolicy VALID ',async()=>{
     await DButils.execQuery(
         `DELETE FROM dbo.sadna_games WHERE Season = '${season}' and League ='${league}'`
       );
-      
-
-
 },200000);
 
 test('test addGamesByPolicy NOT VALID ',async()=>{
-    let season = '2021/2022'
+    let season = 'season_test'
     let league = 'Spanish La Liga'
-    let league_id = 3
-    try{     
-        const ans =await addGamesByPolicy(season,league,league_id);
-
-    }catch (error){
-        expect(error).toStrictEqual({
-                "status": 409,
-                "message": "Not Enough Referees!"
-             })
-    }
+    let league_id = 3    
+    const ans =await addGamesByPolicy(season,league,league_id);
+    expect(ans).toStrictEqual(-1);
 });

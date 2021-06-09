@@ -25,4 +25,3 @@ test('test verifyLoggedIn NOT LOGGED IN ',()=>{
     const ans =  verifyLoggedIn(100);
     expect(ans).toBe(false)
 });
-
