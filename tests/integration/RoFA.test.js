@@ -3,6 +3,7 @@ const {AddGames} = require('../../project/domain/RoFA');
 
 test('test AddGames  GAME CREATED ',async()=>{
     const ans = await AddGames("2021/2022",'Spanish La Liga');
+    console.log(ans,)
     expect(ans).toBeUndefined()
 });
 

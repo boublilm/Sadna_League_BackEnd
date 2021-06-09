@@ -1,31 +1,50 @@
 const {test,expect} = require('@jest/globals');
+const DButils = require('../../project/DB Access/DButils');
+const bcrypt = require("bcryptjs");
 const {LoginRequest, Register} = require('../../project/domain/Guest');
 
-
+// ------------------------------------ TEST Guest.JS function ------------------------
+// LoginRequest Tesing
 test('test LoginRequest VALID ',async()=>{
-    const ans = await LoginRequest('ladygaga','lady@56');
-    expect(ans).toStrictEqual(
-        {
-            "country": "USA",
-            "email": "ladygaga@gmail.com",
-            "first_name": "Stefani",
-            "last_name": "Germanotta",
-            "password": "$2a$10$A0a7DXFjebGMcSLVUnX5sucWxZD.eK/CKF/AJ74.mKXk2sfXtItNa", 
-            "profile_pic": "https://cloudinary.com/",
-            "user_id": 1,
-            "username": "ladygaga"
-        }
-    )
+    let details = {
+        username: "user_test",
+        firstname: "first_name_test",
+        lastname: "last_name_test",
+        country: "country_test",
+        password: "123456",
+        role: "Fan",
+        email: "test@gmail.com",
+        "image-url": "https://test.com/"
+    }
+    let hash_password = bcrypt.hashSync(
+        details.password,
+        parseInt(process.env.bcrypt_saltRounds)
+      );
+    password = hash_password;
+    await DButils.execQuery(
+        `INSERT INTO dbo.sadna_users (username, password, first_name, last_name,country, email,profile_pic)
+         VALUES ('${details.username}', '${hash_password}','${details.first_name}','${details.last_name}','${details.country}','${details.email}','${details.profile_pic}')`
+      );
+ 
+    const ans = await LoginRequest(details.username,details.password);
+    await DButils.execQuery(
+        `DELETE from dbo.sadna_users WHERE username ='${details.username}'`
+      );
+    expect(ans.username).toStrictEqual(details.username)
+
+    
 });
 
-test('test LoginRequest VALID ',async()=>{
+test('test LoginRequest NOT VALID Worng username ',async()=>{
+    expect.assertions(1);
     const ans = await LoginRequest(null,'lady@56');
     expect(ans).toStrictEqual(false)
 });
 
-
+// Register
 test('test Register  NOT VALID USERNAME',async()=>{
-    let details = {"body": {
+    expect.assertions(1);
+    let details =  {
         "username": "ladygaga",
         "firstname": "ladygaga",
         "lastname": "kni",
@@ -34,14 +53,15 @@ test('test Register  NOT VALID USERNAME',async()=>{
         "role": "Fan",
         "email": "ladygaga@gmail.com",
         "image-url": "https://cloudinary.com/"
-      }}
-    const ans = await Register('ladygaga','1q1q1q','Fan',details);
+      }
+    const ans = await Register(details.username,details.password,details.role,details);
     expect(ans).toStrictEqual(false)
 });
 
 test('test Register  NOT VALID ROLE',async()=>{
+    expect.assertions(1);
     try{
-        let details = {"body": {
+        let details =  {
             "username": "Dean",
             "firstname": "ladygaga",
             "lastname": "kni",
@@ -50,8 +70,8 @@ test('test Register  NOT VALID ROLE',async()=>{
             "role": "King",
             "email": "ladygaga@gmail.com",
             "image-url": "https://cloudinary.com/"
-        }}
-        const ans = await Register('Dean','1q1q1q','King',details);
+        }
+        const ans = await Register(details.username,details.password,details.role,details);
     } catch(error){
         expect(error).toStrictEqual({
             "status": 409,

@@ -1,15 +1,20 @@
 const {test,expect} = require('@jest/globals');
-const system_manager = require("../../project/domain/SystemManager");
+const {login} = require("../../project/domain/SystemManager");
 const {CheckLoggedIn} = require('../../project/domain/Member');
 
-test('test CheckLoggedIn NOT LOGGED IN',async()=>{
-    const ans = await CheckLoggedIn(100);
+// ------------------------------------ TEST SystemManager.JS function ------------------------
+// CheckLoggedIn Tesing
+test('test CheckLoggedIn NOT LOGGED IN',()=>{
+    expect.assertions(1);
+    let user_id = 10000000;
+    const ans =  CheckLoggedIn(user_id);
     expect(ans).toBe(false)
 });
 
 
-test('test CheckLoggedIn LOGGED IN',async()=>{
-    system_manager.login(1);
-    const ans = await CheckLoggedIn(1);
+test('test CheckLoggedIn LOGGED IN',()=>{
+    let user_id = 1;
+    login(user_id)
+    const ans = CheckLoggedIn(user_id);
     expect(ans).toBe(true)
 });
