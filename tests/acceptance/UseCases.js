@@ -24,7 +24,6 @@ async function LoginUC(username, password){
 }
 
 async function LogoutUC(){
-    axiosCookieJarSupport(axios);
     try{
         await axios_with_cookies.post(`${api_domain}/Logout`);
     } catch(error){
@@ -32,17 +31,16 @@ async function LogoutUC(){
     }
 }
 
-async function AssignRefereeUC(usename){
-    axiosCookieJarSupport(axios);
+async function AssignRefereeUC(username){
     try{
-        const all_users = await axios.get(`${api_domain}/Users`);
+        const all_users = (await axios.get(`${api_domain}/Users`)).data;
         const user = all_users.find(x => x.username == username);
+        console.log(user);
         const assign_response = await axios.get(`${api_domain}/assignReferee/${user.user_id}`);
         return assign_response;
     } catch(error){
         return error;
     }
-
 }
 
 exports.LoginUC = LoginUC;
