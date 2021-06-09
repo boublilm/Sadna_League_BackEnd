@@ -7,6 +7,7 @@ tags:
   - name: Auth
   - name: Leagues
   - name: RoFA
+  - name: Users
 paths:
   /Register:
     post:
@@ -45,12 +46,6 @@ paths:
             User was found in the DB and authenitcated successfully.
             The session ID is returned in a cookie named `session`. 
             You should include this cookie in subsequent requests
-          # headers:
-          #   Set-Cookie:
-          #     schema:
-          #       type: string
-          #       example: session=87s97sdhgf279293f8w0e9
-          # Note that the Set-Cookie header and securitySchemes are not connected in any way, and the Set-Header definition is for documentation purposes only.
         "401":
           description: Authentication failed
   /logout:
@@ -61,6 +56,21 @@ paths:
       responses:
         "200":
           description: "the user has ben successfully logged out"
+  /Users:
+    get:
+      tags:
+        - Users
+      summary: get all users in DB - for Shahar to test easily
+      description: for tests only
+      responses:
+        "200":
+          description: "all users details"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/UserInfo"
   /RoFA/RegisterReferee:
     post:
       tags:
@@ -334,3 +344,44 @@ components:
           type: string
           description: current season name
           example: "2021/2022"
+    UserInfo:
+      type: object
+      properties:
+        user_id:
+          type: integer
+          description: user ID - unique
+          example: 1
+        username:
+          type: string
+          description: username  - unique
+          example: ladygaga
+        password:
+          type: string
+          description: hashed password
+          format: string
+          example: "464d$ab9"
+        first_name:
+          type: string
+          description: user's first name
+          example: Stefani
+        last_name:
+          type: string
+          description: user's last name
+          example: Germanotta
+        country:
+          type: string
+          description: user's country
+          example: USA
+        email:
+          type: string
+          description: user's email
+          example: ladygaga@gmail.com
+        profile-pic:
+          type: string
+          description: URL for the user's image
+          example: https://cloudinary.com/
+        role:
+          type: string
+          description: user's role
+          example: Fan
+      description: Model containing all user info - will be used for tests

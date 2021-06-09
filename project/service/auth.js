@@ -57,4 +57,13 @@ router.post("/Logout", function (req, res) {
   res.send({ success: true, message: "logout succeeded" });
 });
 
+router.get("/Users", async (req, res, next) => {
+  try {
+    const users = await system_manager.getAllUsers();
+    res.send(users);
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;
