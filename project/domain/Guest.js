@@ -2,6 +2,7 @@ const DButils = require("../DB Access/DButils");
 const Member_Functions = require("./Member");
 const bcrypt = require("bcryptjs");
 const possible_roles = ["Fan"];
+
 async function LoginRequest(username, password) {
   // check that username exists & the password is correct
   const user = await Member_Functions.ValidatePassword(username, password);

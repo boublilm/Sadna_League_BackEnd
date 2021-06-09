@@ -11,7 +11,6 @@ const axios_with_cookies  = axios.create({
 axiosCookieJarSupport(axios_with_cookies);
 
 async function LoginUC(username, password){
-
     try{
         const login_response = await axios_with_cookies.post(`${api_domain}/Login`, {
             username: username,
@@ -31,10 +30,14 @@ async function LogoutUC(){
     }
 }
 
-async function AssignRefereeUC(username){
+async function AssignRefereeUC(user_name){
     try{
         const all_users = (await axios_with_cookies.get(`${api_domain}/Users`)).data;
-        const user = all_users.find(x => x.username == username);
+        let user = all_users.find( x => x.username == user_name);
+        if (user == undefined){
+            //user id that doesn't exist in system because user not found
+            user = {user_id:0};
+        }
         const assign_response = await axios_with_cookies.post(`${api_domain}/RoFA/assignReferee/${user.user_id}`);
         return assign_response;
     } catch(error){
