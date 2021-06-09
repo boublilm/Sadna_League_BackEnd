@@ -33,10 +33,9 @@ async function LogoutUC(){
 
 async function AssignRefereeUC(username){
     try{
-        const all_users = (await axios.get(`${api_domain}/Users`)).data;
+        const all_users = (await axios_with_cookies.get(`${api_domain}/Users`)).data;
         const user = all_users.find(x => x.username == username);
-        console.log(user);
-        const assign_response = await axios.get(`${api_domain}/assignReferee/${user.user_id}`);
+        const assign_response = await axios_with_cookies.post(`${api_domain}/RoFA/assignReferee/${user.user_id}`);
         return assign_response;
     } catch(error){
         return error;
