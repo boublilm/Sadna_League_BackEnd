@@ -1,22 +1,40 @@
 {
 
   "scripts": {
+
     "test": "jest",
-    "test:unit": "jest --watchAll --testPathPattern=tests/unit tests",
-    "test:integration": "jest --watchAll --testPathPattern=tests/integration tests",
-    "test:acceptance": "jest --watchAll jest --testPathPattern=tests/acceptance tests"
+
+    "test:unit": "jest --watchAll --testPathPattern=tests/unit",
+
+    "test:integration": "jest --watchAll --testPathPattern=tests/integration",
+
+    "test:acceptance": "jest --watchAll jest --testPathPattern=tests/acceptance"
+
   },
+
   "devDependencies": {
+
     "jest": "^27.0.4"
+
   },
+
   "dependencies": {
+
     "bcryptjs": "^2.4.3",
+
     "client-sessions": "^0.8.0",
+
     "cors": "^2.8.5",
+
     "dotenv": "^10.0.0",
+
     "express": "^4.17.1",
+
     "morgan": "^1.10.0",
+
     "mssql": "^7.1.0"
+
   }
 
 }
+

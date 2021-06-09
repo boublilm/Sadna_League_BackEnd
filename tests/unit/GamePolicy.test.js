@@ -8,9 +8,8 @@ test('test addGamesByPolicy VALID ',async()=>{
 });
 
 test('test addGamesByPolicy VALID ',async()=>{
-    let ans;
     try{     
-        ans =await addGamesByPolicy('2021/2022','Spanish La Liga',3);
+        const ans =await addGamesByPolicy('2021/2022','Spanish La Liga',3);
 
     }catch (error){
         expect(error).toStrictEqual({
