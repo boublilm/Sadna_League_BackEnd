@@ -11,11 +11,30 @@ router.post("/AddGames", async (req, res, next) => {
     // check the current user is RoAF
     const is_rofa = await rofa.verifyRoFA(req.session.user_id);
     if (!is_rofa) {
-      throw { status: 401, message: "Only RoAF can add new games" };
+      throw { status: 401, message: "Only RoFA can add new games" };
+    }
+
+    //check that league and season exist
+    const season = req.body.season;
+    const league = req.body.league_name;
+    console.log(`league: ${league}, season: ${season}`);
+    const league_id = await season_league.validateSeasonLeague(season, league);
+    if (league_id < 0){
+      throw { status: 404, message: "League or Season Doesn't Exist in DB" };
+    }
+
+    //check number of referees
+    const referees = await season_league.getRefereesInSeasonLeague(league_id, season);
+    if (referees.length < 2) {
+      throw { status: 409, message: "Not Enough Referees!" };
     }
 
     //add the games for season in league automatically by current policy
-    await rofa.AddGames(req.body.season, req.body.league_name);
+    const games_added = await rofa.AddGames(season, league, league_id);
+    //throws error if no games were added
+    if (games_added < 0){
+      throw { status: 401, message: "Games Already Created" };
+    }
 
     res.status(201).send("Games Added");
   } catch (error) {
