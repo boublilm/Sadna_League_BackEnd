@@ -7,7 +7,6 @@ function login(user_id){
 }
 
 function logout(user_id){
-    console.log(user_id);
     const index = logged_users.indexOf(user_id);
     if (index > -1) {
         logged_users.splice(index, 1);
