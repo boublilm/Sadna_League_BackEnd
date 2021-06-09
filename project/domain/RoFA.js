@@ -41,9 +41,14 @@ async function checkLeagueExists(leagueID) {
 
 async function RegisterRefereeToSeasonLeague(user_id, leagueID, season) {
   //Add user as referee
-  await DButils.execQuery(
-    `INSERT INTO dbo.sadna_judges (user_id, league, season) VALUES ('${user_id}', '${leagueID}', '${season}')`
+  const ans = await DButils.execQuery(
+    `SELECT * FROM dbo.sadna_judges WHERE user_id = '${user_id}' and league='${leagueID}' and season='${season}'`
   );
+  if (ans.length==0){
+    await DButils.execQuery(
+      `INSERT INTO dbo.sadna_judges (user_id, league, season) VALUES ('${user_id}', '${leagueID}', '${season}')`
+    );
+  }
 }
 
 async function assignUserasReferee(user_id) {

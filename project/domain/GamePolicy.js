@@ -6,19 +6,16 @@ async function addGamesByPolicy(season, league, league_id){
     const all_teams = await DButils.execQuery(
         `SELECT teamName FROM dbo.sadna_teams where league='${league_id}'`
     );
-        // console.log('1')
     //check referees
     const referees = await DButils.execQuery(
         `SELECT user_id FROM dbo.sadna_judges where league='${league_id}' and season='${season}'`
     );
-    // console.log('2')
     if (referees.length < 2) {
         throw { status: 409, message: "Not Enough Referees!" };
     }
 
     let initial_date = new Date();
     initial_date.setDate(initial_date.getDate() + 7);
-    // console.log('3')
     // Appending all possible games
     let array_games = [];
     for (let i = 0; i < all_teams.length; i++) {
@@ -26,10 +23,8 @@ async function addGamesByPolicy(season, league, league_id){
         array_games.push([all_teams[i], all_teams[j]]);
         }
     }
-    // console.log('4')
     // Shuffling games
     array_games.sort(() => Math.random() - 0.5);
-    console.log("array_games.length", array_games.length)
     for (let i = 0; i < array_games.length; i++) {
         //randomize home\away
         let rand_home = Math.floor(Math.random() * 2);
@@ -40,7 +35,6 @@ async function addGamesByPolicy(season, league, league_id){
         let location = await DButils.execQuery(
         `SELECT field FROM dbo.sadna_teams where league='${league_id}' and season='${season}' and teamName='${home_team}'`
         );
-        // console.log("4.1")
         //add the game to DB
         await DButils.execQuery(
         `INSERT INTO dbo.sadna_games (Season, League, HomeTeamName, AwayTeamName, GameDate, Location, MainReferee, SecondaryReferee) VALUES
@@ -51,13 +45,9 @@ async function addGamesByPolicy(season, league, league_id){
             referees[0].user_id
         }','${referees[1].user_id}')`
         );
-        // console.log("4.2")
         //increment date
         initial_date.setDate(initial_date.getDate() + 7);
-        // console.log("4.3")
   }
-//   console.log('5')
-//   return true
 }
 
 function getAllPolicies(){

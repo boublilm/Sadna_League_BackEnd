@@ -12,7 +12,7 @@ async function validateSeasonLeague(season, league) {
     `SELECT leagueID FROM dbo.sadna_leagues where leagueName='${league}'`
   );
   if (LeagueExist.length < 1) {
-    throw { status: 404, message: "League Doesn't Exist in DB" };
+    return -1;
   }
   let league_id = LeagueExist[0].leagueID;
 
@@ -21,7 +21,7 @@ async function validateSeasonLeague(season, league) {
     `SELECT * FROM dbo.sadna_seasons where Season='${season}'`
   );
   if (SeasonExist.length < 1) {
-    throw { status: 404, message: "Season Doesn't Exist in DB" };
+    return -1;
   }
   return league_id;
 }

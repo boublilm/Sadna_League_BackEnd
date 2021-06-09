@@ -1,21 +1,12 @@
 const {test,expect} = require('@jest/globals');
 const {getLeagueDetails} = require('../../project/domain/League');
+const DButils = require('../../project/DB Access/DButils');
 
 
 test('test getLeagueDetails OK',async()=>{
     const ans = await getLeagueDetails();
-    expect(ans).toStrictEqual(
-        [
-            {
-              "leagueID": 1,
-              "leagueName": "Premier League"
-            },
-            {
-              "leagueID": 2,
-              "leagueName": "Spanish La Liga"
-            }
-          ]
-        )
+    const corectAns = await DButils.execQuery(`SELECT * FROM dbo.sadna_leagues`)
+    expect(ans).toStrictEqual(corectAns)
 });
 test('test getLeagueDetails NOT OK',async()=>{
     const ans = await getLeagueDetails();
@@ -23,11 +14,11 @@ test('test getLeagueDetails NOT OK',async()=>{
         [
             {
               "leagueID": 1,
-              "leagueName": "Premifer League"
+              "leagueName": "not exists League"
             },
             {
               "leagueID": 2,
-              "leagueName": "Spanish La Liga"
+              "leagueName": "not exists Liga"
             }
           ]
         )
