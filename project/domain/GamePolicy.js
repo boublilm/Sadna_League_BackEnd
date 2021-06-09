@@ -28,7 +28,6 @@ async function addGamesByPolicy(season, league, league_id){
 
     // Shuffling games
     array_games.sort(() => Math.random() - 0.5);
-    console.log("array_games.length", array_games.length)
     for (let i = 0; i < array_games.length; i++) {
         //randomize home\away
         let rand_home = Math.floor(Math.random() * 2);
@@ -64,3 +63,5 @@ async function addGamesByPolicy(season, league, league_id){
 function getAllPolicies(){
     
 }
+
+exports.addGamesByPolicy = addGamesByPolicy;

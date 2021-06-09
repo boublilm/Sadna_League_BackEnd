@@ -1,9 +1,11 @@
 const {test,expect} = require('@jest/globals');
 const DButils = require('../../project/DB Access/DButils');
-
 const {CheckRefereeExist} = require('../../project/domain/Referee');
 
+// ------------------------------------ TEST Referee.JS function ------------------------
+// CheckRefereeExist Tesing
 test('test CheckRefereeExist EXIST',async()=>{
+    expect.assertions(1);
     let ids = await DButils.execQuery(
         `SELECT user_id FROM dbo.sadna_roles`
       );
@@ -24,13 +26,17 @@ test('test CheckRefereeExist EXIST',async()=>{
         `INSERT INTO dbo.sadna_roles(user_id,role) VALUES( '${referee_id}','Referee')`
       );
     const ans = await CheckRefereeExist(referee_id);
-    expect(ans).toStrictEqual(true)
+    
     await DButils.execQuery(
         `DELETE FROM dbo.sadna_roles WHERE user_id = '${referee_id}' `
       );
+
+    expect(ans).toStrictEqual(true)
+    
 });
 
 test('test CheckRefereeExist NOT EXIST',async()=>{
+    expect.assertions(1);
     let ids = await DButils.execQuery(
         `SELECT user_id FROM dbo.sadna_roles`
       );

@@ -2,8 +2,10 @@ const {test,expect} = require('@jest/globals');
 const DButils = require('../../project/DB Access/DButils');
 const {validateSeasonLeague,getAllGames,checkRefereeExists} = require('../../project/domain/SeasonInLeague');
 
-
+// ------------------------------------ TEST SeasonInLeague.JS function ------------------------
+// validateSeasonLeague Tesing
 test('test validateSeasonLeague VALID ',async()=>{
+    expect.assertions(1);
     let league_name = 'league_name_test'
     await DButils.execQuery(
         `INSERT INTO dbo.sadna_leagues (leagueName) VALUES ('${league_name}')`
@@ -26,6 +28,7 @@ test('test validateSeasonLeague VALID ',async()=>{
 });
 
 test('test validateSeasonLeague NOT EXISTS LIGA',async()=>{
+  expect.assertions(1);
     let league_name = 'not Exist Liga'
 
     let season = 'season_test'
@@ -41,6 +44,7 @@ test('test validateSeasonLeague NOT EXISTS LIGA',async()=>{
 });
 
 test('test validateSeasonLeague NOT VALID SEASON',async()=>{
+  expect.assertions(1);
     let league_name = 'league_name_test'
     await DButils.execQuery(
         `INSERT INTO dbo.sadna_leagues (leagueName) VALUES ('${league_name}')`
@@ -54,7 +58,9 @@ test('test validateSeasonLeague NOT VALID SEASON',async()=>{
    
 });
 
+// getAllGames
 test('test getAllGames EXISTS ',async()=>{
+  expect.assertions(1);
     let test_data = {
         season: 'season test',
         league:'league test',
@@ -81,13 +87,16 @@ test('test getAllGames EXISTS ',async()=>{
 });
 
 test('test getAllGames NOT EXISTS ',async()=>{
+  expect.assertions(1);
     let league = 'league test';
     let season ='season_test';
     const ans = await getAllGames(season,league);
     expect(ans).toStrictEqual([])
 });
 
+// checkRefereeExists
 test('test checkRefereeExists EXISTS ',async()=>{
+  expect.assertions(1);
     let ids = await DButils.execQuery(
         `SELECT user_id FROM dbo.sadna_judges`
       );
@@ -117,6 +126,7 @@ test('test checkRefereeExists EXISTS ',async()=>{
 });
 
 test('test checkRefereeExists NOT EXISTS/VALID ',async()=>{
+  expect.assertions(1);
     const ans = await checkRefereeExists(1,null,null);
     expect(ans).toBeUndefined()
 });

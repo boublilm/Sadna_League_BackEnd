@@ -4,12 +4,16 @@ const {CheckUsername,ValidatePassword,Checkuserid} = require('../../project/doma
 const {Register} = require('../../project/domain/Guest');
 const e = require('express');
 
+// ------------------------------------ TEST Member.JS function ------------------------
+// CheckUsername Tesing
 test('test CheckUsername NOT exists',async()=>{
+    expect.assertions(1);
     const ans = await CheckUsername("userNameNotExsist");
     expect(ans).toBe(true)
 });
 
 test('test CheckUsername exists',async()=>{
+    expect.assertions(1);
     let username = 'user_test'
     let password = '123456'
     let first_name = 'first_name_test'
@@ -22,14 +26,18 @@ test('test CheckUsername exists',async()=>{
          VALUES ('${username}', '${password}','${first_name}','${last_name}','${country}','${email}','${profile_pic}')`
       );
     const ans = await CheckUsername(username);
-    expect(ans).toBe(false)
+
     await DButils.execQuery(
         `DELETE FROM dbo.sadna_users WHERE username = '${username}'`
       );
+
+    expect(ans).toBe(false)
+
 });
 
-
+// ValidatePassword Tesing
 test('test ValidatePassword VALID',async()=>{
+    expect.assertions(1);
     let details = {"body": {
         "username": "user_test_ValidatePassword",
         "firstname": "first_name_test",
@@ -45,13 +53,17 @@ test('test ValidatePassword VALID',async()=>{
     const corect_ans = await DButils.execQuery(
         `SELECT * FROM dbo.sadna_users WHERE username = '${details.body.username}'`
       );
-    expect(ans).toStrictEqual(corect_ans[0])
-    await DButils.execQuery(
+
+      await DButils.execQuery(
         `DELETE FROM dbo.sadna_users WHERE username = '${details.body.username}'`
       );
+      
+    expect(ans).toStrictEqual(corect_ans[0])
+   
 });
 
 test('test ValidatePassword NOT VALID worng passsword',async()=>{
+    expect.assertions(1);
     let details = {"body": {
         "username": "user_Passwordworng",
         "firstname": "first_name_test",
@@ -64,13 +76,17 @@ test('test ValidatePassword NOT VALID worng passsword',async()=>{
     }}
     await Register(details.body.username,details.body.password,details.body.role,details);
     const ans = await ValidatePassword(details.body.username, "worngPassword");
-    expect(ans).toStrictEqual(false)
+
     await DButils.execQuery(
         `DELETE FROM dbo.sadna_users WHERE username = '${details.body.username}'`
       );
+
+    expect(ans).toStrictEqual(false)
+    
 });
 
 test('test ValidatePassword NOT VALID not exist user',async()=>{
+    expect.assertions(1);
     let details = {"body": {
         "username": "user_dWorngUserName",
         "firstname": "first_name_test",
@@ -83,14 +99,17 @@ test('test ValidatePassword NOT VALID not exist user',async()=>{
     }}
     await Register(details.body.username,details.body.password,details.body.role,details);
     const ans = await ValidatePassword("notExistUser", details.body.password);
-    expect(ans).toStrictEqual(false)
     await DButils.execQuery(
         `DELETE FROM dbo.sadna_users WHERE username = '${details.body.username}'`
       );
+
+    expect(ans).toStrictEqual(false)
+    
 });
 
-
+// Checkuserid testing
 test('test Checkuserid EXIST',async()=>{
+    expect.assertions(1);
     let details = {"body": {
         "username": "user_test_Checkuserid",
         "firstname": "first_name_test",
@@ -106,13 +125,18 @@ test('test Checkuserid EXIST',async()=>{
         `SELECT user_id FROM dbo.sadna_users WHERE username = '${details.body.username}'`
       );
     const ans = await Checkuserid(id[0].user_id);
-    expect(ans).toStrictEqual(true)
+
     await DButils.execQuery(
         `DELETE FROM dbo.sadna_users WHERE username = '${details.body.username}'`
       );
+
+      
+    expect(ans).toStrictEqual(true)
+    
 });
 
 test('test Checkuserid NOT EXIST',async()=>{
+    expect.assertions(1);
     let ids = await DButils.execQuery(
         `SELECT user_id FROM dbo.sadna_users`
       );
