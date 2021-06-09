@@ -1,5 +1,6 @@
 const {test,expect} = require('@jest/globals');
-const {verifyRoFA,checkLeagueExists,RegisterRefereeToSeasonLeague} = require('../../project/domain/RoFA');
+const DButils = require("../DB Access/DButils");
+const {verifyRoFA,checkLeagueExists,RegisterRefereeToSeasonLeague,AddGames} = require('../../project/domain/RoFA');
 
 
 test('test verifyRoFA EXIST ',async()=>{
@@ -30,3 +31,15 @@ test('test checkLeagueExists NOT EXIST',async()=>{
     }
    
 });
+
+
+
+test('test RegisterRefereeToSeasonLeague EXIST ',async()=>{
+    await RegisterRefereeToSeasonLeague(7,2,"2021/2022");
+    const ans = await DButils.execQuery(
+        "SELECT * FROM dbo.sadna_judges WHERE user_id = 7 and league=2 and season='2021/2022'"
+      );
+    expect(ans.length).not.toBe(0);
+});
+
+
