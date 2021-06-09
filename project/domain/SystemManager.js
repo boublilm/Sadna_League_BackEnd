@@ -1,19 +1,26 @@
 const DButils = require("../DB Access/DButils");
 let logged_users = [];
 
-function login(username){
-    logged_users.push(username);
+function login(user_id){
+    logged_users.push(user_id);
 }
 
-function logout(username){
-    const index = logged_users.indexOf(username);
+function logout(user_id){
+    console.log(user_id);
+    const index = logged_users.indexOf(user_id);
     if (index > -1) {
         logged_users.splice(index, 1);
     }
 }
 
-function verifyLoggedIn(username){
-    return logged_users.includes(username);
+function verifyLoggedIn(user_id){
+    let logged_in = false;
+    logged_users.forEach(user => {
+        if (user == user_id){
+            logged_in = true;
+        }
+    });
+    return logged_in;
 }
 
 function DeleteTeam(team){

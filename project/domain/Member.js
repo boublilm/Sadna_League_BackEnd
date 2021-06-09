@@ -25,9 +25,9 @@ async function ValidatePassword(username, password) {
   return user;
 }
 
-function CheckLoggedIn(username) {
+function CheckLoggedIn(user_id) {
   //check if user is already logged in
-  return system_manager.verifyLoggedIn(username);
+  return system_manager.verifyLoggedIn(user_id);
 }
 
 async function Checkuserid(user_id) {
