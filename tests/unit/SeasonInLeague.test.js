@@ -14,7 +14,7 @@ test('test validateSeasonLeague NOT EXISTS LIGA',async()=>{
        
     }catch (error){
         expect(error).toStrictEqual({
-                "status": 409,
+                "status": 404,
                 "message": "League Doesn't Exist in DB"
              })
     }
@@ -28,7 +28,7 @@ test('test validateSeasonLeague NOT VALID SEASON',async()=>{
        
     }catch (error){
         expect(error).toStrictEqual({
-                "status": 409,
+                "status": 404,
                 "message": "Season Doesn't Exist in DB"
              })
     }

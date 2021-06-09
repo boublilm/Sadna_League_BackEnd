@@ -1,4 +1,5 @@
 const DButils = require("../DB Access/DButils");
+const { get } = require("../service/auth");
 let logged_users = [];
 
 function login(user_id){
@@ -34,7 +35,12 @@ async function getAllUsers(){
     return all_users;
 }
 
+function getLoggedUsers(){
+    return logged_users;
+}
+
 exports.login = login;
 exports.logout = logout;
 exports.verifyLoggedIn = verifyLoggedIn;
 exports.getAllUsers = getAllUsers;
+exports.getLoggedUsers = getLoggedUsers;
