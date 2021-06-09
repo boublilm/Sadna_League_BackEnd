@@ -40,5 +40,38 @@ async function deleteUserForTest(username){
     );
 }
 
+async function createLeague(league){
+    // add the league to DB
+    await DButils.execQuery(
+        `INSERT INTO dbo.sadna_leagues (leagueName) 
+        VALUES ('${league}')`
+    );
+}
+
+async function deleteLeague(league){
+    await DButils.execQuery(
+        `DELETE FROM dbo.sadna_leagues WHERE leagueName = '${league}'`
+    );
+}
+
+async function createSeason(season){
+    // add the season to DB
+    await DButils.execQuery(
+        `INSERT INTO dbo.sadna_seasons (Season) 
+        VALUES ('${season}')`
+    );
+}
+
+async function deleteSeason(season){
+    await DButils.execQuery(
+        `DELETE FROM dbo.sadna_seasons WHERE Season = '${season}'`
+    );
+}
+
 exports.createUserForTest = createUserForTest;
 exports.deleteUserForTest = deleteUserForTest;
+
+exports.createLeague = createLeague;
+exports.deleteLeague = deleteLeague;
+exports.createSeason = createSeason;
+exports.deleteSeason = deleteSeason;

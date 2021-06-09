@@ -45,6 +45,26 @@ async function AssignRefereeUC(user_name){
     }
 }
 
+async function RejisterJudgeUC(ref_name, league, season){
+    try{
+        const all_users = (await axios_with_cookies.get(`${api_domain}/Users`)).data;
+        let user = all_users.find( x => x.username == ref_name);
+        if (user == undefined){
+            //user that doesn't exist in system because user not found
+            user = {user_id:0};
+        }
+        const register_response = await axios_with_cookies.post(`${api_domain}/RoFA/RegisterReferee`, {
+            user_id: user.user_id,
+            league: league,
+            season: season
+        });
+        return register_response;
+    } catch(error){
+        return error;
+    }
+}
+
 exports.LoginUC = LoginUC;
 exports.LogoutUC = LogoutUC;
 exports.AssignRefereeUC = AssignRefereeUC;
+exports.RejisterJudgeUC = RejisterJudgeUC;

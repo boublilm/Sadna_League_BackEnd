@@ -59,7 +59,11 @@ router.post("/RegisterReferee", async (req, res, next) => {
     }
     const season = req.body.season;
     const league = req.body.league;
-    const league_id = await season_league.validateSeasonLeague(season, league); //throws error if not
+    const league_id = await season_league.validateSeasonLeague(season, league);
+    //throws error if not exist
+    if (league_id < 0){
+      throw { status: 404, message: "League or Season Doesn't Exist in DB" };
+    }
     const referee_id = req.body.user_id;
 
     //check if referee user exist
@@ -67,7 +71,7 @@ router.post("/RegisterReferee", async (req, res, next) => {
     if (!user_exist) {
       throw {
         status: 404,
-        message: "User is not a referee or doesn't exist in system",
+        message: "User is not a referee or doesn't exist in system"
       };
     }
 
@@ -81,7 +85,7 @@ router.post("/RegisterReferee", async (req, res, next) => {
       throw {
         status: 409,
         message:
-          "User is already registered to the league and season as a judge",
+          "User is already registered to the league and season as a judge"
       };
     }
 
