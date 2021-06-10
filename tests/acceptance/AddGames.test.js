@@ -114,7 +114,7 @@ test('games already created', async () => {
     expect(error.data).toEqual("Games Already Created");
 });
 
-test('no enough teams', async () => {
+test('not enough teams', async () => {
     expect.assertions(2);
     await use_cases.LoginUC("rofa_addGames", "password123");
     await use_cases.RejisterJudgeUC("referee1_addGames", "test_league1", "test_season2");
