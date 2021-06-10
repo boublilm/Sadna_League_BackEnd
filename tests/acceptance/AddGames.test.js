@@ -41,8 +41,8 @@ test('successfull add games', async () => {
     expect.assertions(2);
     //login with RoFA & register judges
     await use_cases.LoginUC("rofa_addGames", "password123");
-    await use_cases.RejisterJudgeUC("referee1_addGames", "test_league1", "test_season1");
-    await use_cases.RejisterJudgeUC("referee2_addGames", "test_league1", "test_season1");
+    await use_cases.RegisterJudgeUC("referee1_addGames", "test_league1", "test_season1");
+    await use_cases.RegisterJudgeUC("referee2_addGames", "test_league1", "test_season1");
 
     //register referee to season leage
     const response = await await use_cases.AddGamesUC("test_league1", "test_season1");
@@ -64,7 +64,7 @@ test('only 1 referees for season-league', async () => {
     expect.assertions(2);
     //login with RoFA
     await use_cases.LoginUC("rofa_addGames", "password123");
-    await use_cases.RejisterJudgeUC("referee1_addGames", "test_league2", "test_season1");
+    await use_cases.RegisterJudgeUC("referee1_addGames", "test_league2", "test_season1");
 
     const error = (await use_cases.AddGamesUC("test_league2", "test_season1")).response;
     expect(error.status).toEqual(409);
@@ -105,8 +105,8 @@ test('league does not exist', async () => {
 test('games already created', async () => {
     expect.assertions(2);
     await use_cases.LoginUC("rofa_addGames", "password123");
-    await use_cases.RejisterJudgeUC("referee1_addGames", "test_league2", "test_season2");
-    await use_cases.RejisterJudgeUC("referee2_addGames", "test_league2", "test_season2");
+    await use_cases.RegisterJudgeUC("referee1_addGames", "test_league2", "test_season2");
+    await use_cases.RegisterJudgeUC("referee2_addGames", "test_league2", "test_season2");
 
     await use_cases.AddGamesUC("test_league2", "test_season2");
     const error = (await use_cases.AddGamesUC("test_league2", "test_season2")).response;
@@ -117,8 +117,8 @@ test('games already created', async () => {
 test('not enough teams', async () => {
     expect.assertions(2);
     await use_cases.LoginUC("rofa_addGames", "password123");
-    await use_cases.RejisterJudgeUC("referee1_addGames", "test_league1", "test_season2");
-    await use_cases.RejisterJudgeUC("referee2_addGames", "test_league1", "test_season2");
+    await use_cases.RegisterJudgeUC("referee1_addGames", "test_league1", "test_season2");
+    await use_cases.RegisterJudgeUC("referee2_addGames", "test_league1", "test_season2");
 
     const error = (await use_cases.AddGamesUC("test_league1", "test_season2")).response;
     expect(error.status).toEqual(409);

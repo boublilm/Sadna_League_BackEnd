@@ -45,7 +45,7 @@ async function AssignRefereeUC(user_name){
     }
 }
 
-async function RejisterJudgeUC(ref_name, league, season){
+async function RegisterJudgeUC(ref_name, league, season){
     try{
         const all_users = (await axios_with_cookies.get(`${api_domain}/Users`)).data;
         let user = all_users.find( x => x.username == ref_name);
@@ -79,5 +79,5 @@ async function AddGamesUC(league, season){
 exports.LoginUC = LoginUC;
 exports.LogoutUC = LogoutUC;
 exports.AssignRefereeUC = AssignRefereeUC;
-exports.RejisterJudgeUC = RejisterJudgeUC;
+exports.RegisterJudgeUC = RegisterJudgeUC;
 exports.AddGamesUC = AddGamesUC;

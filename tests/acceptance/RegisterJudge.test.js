@@ -32,7 +32,7 @@ test('successfull register', async () => {
     //login with RoFA
     await use_cases.LoginUC("rofa_reg_judge", "password123");
     //register referee to season leage
-    const response = await use_cases.RejisterJudgeUC("referee_reg_judge", "test_league", "test_season");
+    const response = await use_cases.RegisterJudgeUC("referee_reg_judge", "test_league", "test_season");
     expect(response.status).toEqual(201);
     expect(response.data).toEqual("Referee Added Successfully");
 });
@@ -40,7 +40,7 @@ test('successfull register', async () => {
 test('unauthorized operation - not logged in', async () => {
     expect.assertions(2);
     //user is not logged in
-    const error = (await use_cases.RejisterJudgeUC("referee_reg_judge", "test_league", "test_season")).response;
+    const error = (await use_cases.RegisterJudgeUC("referee_reg_judge", "test_league", "test_season")).response;
     expect(error.status).toEqual(401);
     expect(error.data).toEqual("user is not authorized");
 });
@@ -49,7 +49,7 @@ test('unauthorized operation - logged in with non RoFA user', async () => {
     expect.assertions(2);
     await use_cases.LoginUC("fan_reg_judge", "password123");
     //user logged in, but he is not RoFA
-    const error = (await use_cases.RejisterJudgeUC("referee_reg_judge", "test_league", "test_season")).response;
+    const error = (await use_cases.RegisterJudgeUC("referee_reg_judge", "test_league", "test_season")).response;
     expect(error.status).toEqual(401);
     expect(error.data).toEqual("user is not authorized");
 });
@@ -57,7 +57,7 @@ test('unauthorized operation - logged in with non RoFA user', async () => {
 test('user is not a referee', async () => {
     expect.assertions(2);
     await use_cases.LoginUC("rofa_reg_judge", "password123");
-    const error = (await use_cases.RejisterJudgeUC("fan_reg_judge", "test_league", "test_season")).response;
+    const error = (await use_cases.RegisterJudgeUC("fan_reg_judge", "test_league", "test_season")).response;
     expect(error.status).toEqual(404);
     expect(error.data).toEqual("User is not a referee or doesn't exist in system");
 });
@@ -65,7 +65,7 @@ test('user is not a referee', async () => {
 test('user does not exist', async () => {
     expect.assertions(2);
     await use_cases.LoginUC("rofa_reg_judge", "password123");
-    const error = (await use_cases.RejisterJudgeUC("not_exist", "test_league", "test_season")).response;
+    const error = (await use_cases.RegisterJudgeUC("not_exist", "test_league", "test_season")).response;
     expect(error.status).toEqual(404);
     expect(error.data).toEqual("User is not a referee or doesn't exist in system");
 });
@@ -73,7 +73,7 @@ test('user does not exist', async () => {
 test('season does not exist', async () => {
     expect.assertions(2);
     await use_cases.LoginUC("rofa_reg_judge", "password123");
-    const error = (await use_cases.RejisterJudgeUC("referee_reg_judge", "test_league", "not_exist")).response;
+    const error = (await use_cases.RegisterJudgeUC("referee_reg_judge", "test_league", "not_exist")).response;
     expect(error.status).toEqual(404);
     expect(error.data).toEqual("League or Season Doesn't Exist in DB");
 });
@@ -81,7 +81,7 @@ test('season does not exist', async () => {
 test('league does not exist', async () => {
     expect.assertions(2);
     await use_cases.LoginUC("rofa_reg_judge", "password123");
-    const error = (await use_cases.RejisterJudgeUC("referee_reg_judge", "not_exist", "test_season")).response;
+    const error = (await use_cases.RegisterJudgeUC("referee_reg_judge", "not_exist", "test_season")).response;
     expect(error.status).toEqual(404);
     expect(error.data).toEqual("League or Season Doesn't Exist in DB");
 });
@@ -89,7 +89,7 @@ test('league does not exist', async () => {
 test('referee is already registered', async () => {
     expect.assertions(2);
     await use_cases.LoginUC("rofa_reg_judge", "password123");
-    const error = (await use_cases.RejisterJudgeUC("referee_reg_judge", "test_league", "test_season")).response;
+    const error = (await use_cases.RegisterJudgeUC("referee_reg_judge", "test_league", "test_season")).response;
     expect(error.status).toEqual(409);
     expect(error.data).toEqual("User is already registered to the league and season as a judge");
 });
