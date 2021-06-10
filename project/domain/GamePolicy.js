@@ -5,8 +5,11 @@ const season_league = require("./SeasonInLeague");
 async function addGamesByPolicy(season, league, league_id){
     // Get All league team names
     const all_teams = await DButils.execQuery(
-        `SELECT teamName FROM dbo.sadna_teams where league='${league_id}'`
+        `SELECT teamName FROM dbo.sadna_teams where league='${league_id}' AND season='${season}'`
     );
+    if (all_teams.length < 2){
+        return 0;
+    }
 
     //check referees
     const referees = await season_league.getRefereesInSeasonLeague(league_id, season);

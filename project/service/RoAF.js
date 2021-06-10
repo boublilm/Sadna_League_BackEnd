@@ -32,6 +32,9 @@ router.post("/AddGames", async (req, res, next) => {
     //add the games for season in league automatically by current policy
     const games_added = await rofa.AddGames(season, league, league_id);
     //throws error if no games were added
+    if (games_added == 0){
+      throw { status: 409, message: "Not Enough Teams" };
+    }
     if (games_added < 0){
       throw { status: 401, message: "Games Already Created" };
     }
@@ -88,10 +91,7 @@ router.post("/RegisterReferee", async (req, res, next) => {
     //check if referee user exist
     const user_exist = await Referee.CheckRefereeExist(referee_id);
     if (!user_exist) {
-      throw {
-        status: 404,
-        message: "User is not a referee or doesn't exist in system"
-      };
+      throw { status: 404, message: "User is not a referee or doesn't exist in system" };
     }
 
     //check if referee is in league already
@@ -101,11 +101,7 @@ router.post("/RegisterReferee", async (req, res, next) => {
       season
     );
     if (referee_signed) {
-      throw {
-        status: 409,
-        message:
-          "User is already registered to the league and season as a judge"
-      };
+      throw { status: 409, message: "User is already registered to the league and season as a judge" };
     }
 
     //sign referee to season

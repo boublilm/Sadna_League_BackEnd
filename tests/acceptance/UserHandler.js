@@ -68,6 +68,36 @@ async function deleteSeason(season){
     );
 }
 
+async function addTeams(season, league){
+    //get league id
+    const league_id = (await DButils.execQuery(
+        `SELECT leagueID FROM dbo.sadna_leagues WHERE leagueName = '${league}'`
+    ))[0].leagueID;
+
+    addTeam("team_1", season, league_id);
+    addTeam("team_2", season, league_id);
+    addTeam("team_3", season, league_id);
+
+}
+
+async function addTeam(team_name, season, league_id){
+    await DButils.execQuery(
+        `INSERT INTO dbo.sadna_teams (teamName, league, season, field) 
+        VALUES ('${team_name}', '${season}', '${league_id}', '${team_name} home Stedium')`
+    );
+}
+
+async function deleteTeams(season, league){
+    //get league id
+    const league_id = (await DButils.execQuery(
+        `SELECT leagueID FROM dbo.sadna_leagues WHERE leagueName = '${league}'`
+    ))[0].leagueID;
+
+    await DButils.execQuery(
+        `DELETE FROM dbo.sadna_teams WHERE Season = '${season}' AND league = '${league_id}'`
+    );
+}
+
 exports.createUserForTest = createUserForTest;
 exports.deleteUserForTest = deleteUserForTest;
 
@@ -75,3 +105,6 @@ exports.createLeague = createLeague;
 exports.deleteLeague = deleteLeague;
 exports.createSeason = createSeason;
 exports.deleteSeason = deleteSeason;
+
+exports.addTeams = addTeams;
+exports.deleteTeams = deleteTeams;

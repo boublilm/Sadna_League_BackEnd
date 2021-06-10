@@ -10,7 +10,8 @@ async function AddGames(season, league, league_id) {
   }
 
   //Add games by policy
-  await game_policy.addGamesByPolicy(season, league, league_id);
+  const result = await game_policy.addGamesByPolicy(season, league, league_id);
+  return result;
 }
 
 async function verifyRoFA(user_id) {
