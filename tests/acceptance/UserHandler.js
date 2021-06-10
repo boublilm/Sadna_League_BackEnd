@@ -38,6 +38,11 @@ async function deleteUserForTest(username){
     await DButils.execQuery(
         `DELETE FROM dbo.sadna_roles WHERE user_id = '${user_id}'`
     );
+
+    //delete from judges table if exist
+    await DButils.execQuery(
+        `DELETE FROM dbo.sadna_judges WHERE user_id = '${user_id}'`
+    );
 }
 
 async function createLeague(league){
@@ -83,7 +88,7 @@ async function addTeams(season, league){
 async function addTeam(team_name, season, league_id){
     await DButils.execQuery(
         `INSERT INTO dbo.sadna_teams (teamName, league, season, field) 
-        VALUES ('${team_name}', '${season}', '${league_id}', '${team_name} home Stedium')`
+        VALUES ('${team_name}', '${league_id}', '${season}', '${team_name} home Stedium')`
     );
 }
 
@@ -93,9 +98,16 @@ async function deleteTeams(season, league){
         `SELECT leagueID FROM dbo.sadna_leagues WHERE leagueName = '${league}'`
     ))[0].leagueID;
 
+    //delete teams from teams table
     await DButils.execQuery(
-        `DELETE FROM dbo.sadna_teams WHERE Season = '${season}' AND league = '${league_id}'`
+        `DELETE FROM dbo.sadna_teams WHERE season = '${season}' AND league = '${league_id}'`
     );
+
+    //delete team games
+    await DButils.execQuery(
+        `DELETE FROM dbo.sadna_games WHERE League = '${league}'`
+    );
+    
 }
 
 exports.createUserForTest = createUserForTest;
