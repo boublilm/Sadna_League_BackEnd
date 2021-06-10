@@ -1,58 +1,35 @@
 const {test,expect} = require('@jest/globals');
 const DButils = require('../../project/DB Access/DButils');
 const {CheckRefereeExist} = require('../../project/domain/Referee');
+const user_handler = require('./unitTestHendler');
+
+const newTimeout = 10000;
+jest.setTimeout(newTimeout);
+
+let refereeID_CheckRefereeExist=100;
+
+beforeAll(async () => {
+  //create users for tests
+  refereeID_CheckRefereeExist = await user_handler.createReferee(100);
+})
+
+
+afterAll(async () =>{
+  //delete users made for tests
+  await user_handler.deleteReferee(refereeID_CheckRefereeExist);
+
+});
 
 // ------------------------------------ TEST Referee.JS function ------------------------
 // CheckRefereeExist Tesing
 test('test CheckRefereeExist EXIST',async()=>{
-    expect.assertions(1);
-    let ids = await DButils.execQuery(
-        `SELECT user_id FROM dbo.sadna_roles`
-      );
-    let notIn=false
-    let referee_id = 100
-   
-    while(notIn == false){
-        let isFind =  ids.find((x) => x.user_id === referee_id)
-        if(!isFind){
-            notIn = true
-        }
-        else{
-        referee_id = referee_id+1
-        }
-
-    }
-    await DButils.execQuery(
-        `INSERT INTO dbo.sadna_roles(user_id,role) VALUES( '${referee_id}','Referee')`
-      );
-    const ans = await CheckRefereeExist(referee_id);
-    
-    await DButils.execQuery(
-        `DELETE FROM dbo.sadna_roles WHERE user_id = '${referee_id}' `
-      );
-
+    const ans = await CheckRefereeExist(refereeID_CheckRefereeExist);
     expect(ans).toStrictEqual(true)
     
 });
 
 test('test CheckRefereeExist NOT EXIST',async()=>{
-    expect.assertions(1);
-    let ids = await DButils.execQuery(
-        `SELECT user_id FROM dbo.sadna_roles`
-      );
-    let notIn=false
-    let referee_id = 100
-   
-    while(notIn == false){
-        let isFind =  ids.find((x) => x.user_id === referee_id)
-        if(!isFind){
-            notIn = true
-        }
-        else{
-        referee_id = referee_id+1
-        }
-
-    }
+    let referee_id = await user_handler.getNotExsistRoldId(100);
     const ans = await CheckRefereeExist(referee_id);
     expect(ans).toStrictEqual(false)
 });

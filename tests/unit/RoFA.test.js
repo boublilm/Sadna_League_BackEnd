@@ -2,22 +2,40 @@ const {test,expect} = require('@jest/globals');
 const DButils = require("../../project/DB Access/DButils");
 const {verifyRoFA,checkLeagueExists,RegisterRefereeToSeasonLeague,assignUserasReferee} = require('../../project/domain/RoFA');
 const { use } = require('../../project/service/auth');
+const user_handler = require('./unitTestHendler');
 
+const newTimeout = 10000;
+jest.setTimeout(newTimeout);
+
+let rofaID_CheckRefereeExist=100;
+let league_name_checkLeagueExists = 'test League';
+let judge_id_RegisterRefereeToSeasonLeagueNotExsist = 100;
+let league_id_RegisterRefereeToSeasonLeagueNotExsist = 2;
+let season_name_RegisterRefereeToSeasonLeagueNotExsist = "season test";
+let role_id_assignUserasRefereeExsist = 100;
+
+beforeAll(async () => {
+  //create users for tests
+  rofaID_CheckRefereeExist = await user_handler.createRoFA(100);
+  await user_handler.createLeague(league_name_checkLeagueExists);
+  judge_id_RegisterRefereeToSeasonLeagueNotExsist = await user_handler.getNotExsistjudgeId(100);
+  role_id_assignUserasRefereeExsist = await user_handler.createRoFA(100);
+})
+
+
+afterAll(async () =>{
+  //delete users made for tests
+  await user_handler.deleteRoFA(rofaID_CheckRefereeExist);
+  await user_handler.deleteLeague(league_name_checkLeagueExists);
+  await user_handler.deleteJudge(judge_id_RegisterRefereeToSeasonLeagueNotExsist);
+  await user_handler.deleteRoFA(role_id_assignUserasRefereeExsist);
+
+});
 // ------------------------------------ TEST RoFA.JS function ------------------------
 // verifyRoFA Tesing
 test('test verifyRoFA EXIST ',async()=>{
     expect.assertions(1);
-    let user_id = 95
-    let role = 'RoFA'
-    await DButils.execQuery(
-        `INSERT INTO dbo.sadna_roles (user_id, role) VALUES ('${user_id}', '${role}')`
-      );
-    const ans = await verifyRoFA(user_id);
-    
-    await DButils.execQuery(
-      `DELETE FROM dbo.sadna_roles WHERE user_id = '${user_id}'`
-    );
-
+    const ans = await verifyRoFA(rofaID_CheckRefereeExist);
     expect(ans).toStrictEqual(true)
    
 
@@ -25,22 +43,7 @@ test('test verifyRoFA EXIST ',async()=>{
 
 test('test verifyRoFA NOT EXIST',async()=>{
   expect.assertions(1);
-  let ids = await DButils.execQuery(
-    `SELECT user_id FROM dbo.sadna_roles`
-  );
-    let notIn=false
-    let RoFA_id = 100
-
-    while(notIn == false){
-        let isFind =  ids.find((x) => x.user_id === RoFA_id)
-        if(!isFind){
-            notIn = true
-        }
-        else{
-        RoFA_id = RoFA_id+1
-        }
-
-    }
+  let RoFA_id = await user_handler.getNotExsistRoldId();
     const ans = await verifyRoFA(RoFA_id);
     expect(ans).toStrictEqual(false)
 });
@@ -48,99 +51,37 @@ test('test verifyRoFA NOT EXIST',async()=>{
 // checkLeagueExists
 test('test checkLeagueExists EXIST ',async()=>{
   expect.assertions(1);
-  let ids = await DButils.execQuery(
-    `SELECT leagueID FROM dbo.sadna_leagues`
+  let league_id = await DButils.execQuery(
+    `SELECT leagueID FROM dbo.sadna_leagues WHERE leagueName='${league_name_checkLeagueExists}'`
   );
-    let notIn=false
-    let league_name = 'test League'
+  const ans = await checkLeagueExists(league_id[0].leagueID);
 
-    while(notIn == false){
-        let isFind =  ids.find((x) => x.leagueName === league_name)
-        if(!isFind){
-            notIn = true
-        }
-        else{
-        league_name = league_name +"1"
-        }
-
-    }
+  expect(ans).toBeUndefined()
   
-  await DButils.execQuery(
-      `INSERT INTO dbo.sadna_leagues (leagueName)
-       VALUES ('${league_name}')`
-    );
-    let league_id = await DButils.execQuery(
-      `SELECT leagueID FROM dbo.sadna_leagues WHERE leagueName='${league_name}'`
-    );
-    const ans = await checkLeagueExists(league_id[0].leagueID);
-    await DButils.execQuery(
-      `DELETE FROM dbo.sadna_leagues WHERE leagueID = '${league_id[0].leagueID}'`
-    );
-
-    expect(ans).toBeUndefined()
-    
-
 });
 
 test('test checkLeagueExists NOT EXIST',async()=>{
   expect.assertions(1);
-  let ids = await DButils.execQuery(
-    `SELECT leagueID FROM dbo.sadna_leagues`
-  );
-    let notIn=false
-    let league_id = 100
-    while(notIn == false){
-        let isFind =  ids.find((x) => x.leagueID === league_id)
-        if(!isFind){
-            notIn = true
-        }
-        else{
-        league_id = league_id +1
-        }
-
-    }
-  
-    try{     
-      let ans = await checkLeagueExists(league_id);
-       
-    }catch (error){
-        expect(error).toStrictEqual({
-            "message": "League ID doesn't exist",
-             "status": 409
-            })
-    }
+  try{ 
+    let league_id = await user_handler.getNotExsistLeagueId(100);    
+    await checkLeagueExists(league_id);
+      
+  }catch (error){
+      expect(error).toStrictEqual({
+          "message": "League ID doesn't exist",
+            "status": 409
+          })
+  }
    
 });
 
 // RegisterRefereeToSeasonLeague
 test('test RegisterRefereeToSeasonLeague NOT EXIST ',async()=>{
   expect.assertions(1);
-  let ids = await DButils.execQuery(
-    `SELECT user_id FROM dbo.sadna_judges`
-  );
-    let notIn=false
-    let user_id = 100
-    while(notIn == false){
-        let isFind =  ids.find((x) => x.user_id === user_id)
-        if(!isFind){
-            notIn = true
-        }
-        else{
-        user_id = user_id +1
-        }
-
-    }
-    let league = 2;
-    let season = '2021/2022_test'
-    await RegisterRefereeToSeasonLeague(user_id,league,season);
-    const ans = await DButils.execQuery(
-        `SELECT * FROM dbo.sadna_judges WHERE user_id = '${user_id}' and league='${league}' and season='${season}'`
-      );
-
-    await DButils.execQuery(
-        `DELETE FROM dbo.sadna_judges WHERE user_id = '${user_id}' and league='${league}' and season='${season}'`
-      );
-
+  await RegisterRefereeToSeasonLeague(judge_id_RegisterRefereeToSeasonLeagueNotExsist,league_id_RegisterRefereeToSeasonLeagueNotExsist,season_name_RegisterRefereeToSeasonLeagueNotExsist);
+  const ans = await DButils.execQuery(
+      `SELECT * FROM dbo.sadna_judges WHERE user_id = '${judge_id_RegisterRefereeToSeasonLeagueNotExsist}' and league='${league_id_RegisterRefereeToSeasonLeagueNotExsist}' and season='${season_name_RegisterRefereeToSeasonLeagueNotExsist}'`
+    );
     expect(ans.length).toBe(1);
     
 });
@@ -151,47 +92,24 @@ test('test RegisterRefereeToSeasonLeague EXIST ',async()=>{
     `SELECT * FROM dbo.sadna_judges`
   );
 
-    let user_id = judges[0].user_id;
-    let league = judges[0].league;
-    let season = judges[0].season;
-    await RegisterRefereeToSeasonLeague(user_id,league,season);
-    const ans = await DButils.execQuery(
-        `SELECT * FROM dbo.sadna_judges WHERE user_id = '${user_id}' and league='${league}' and season='${season}'`
-      );
-    expect(ans.length).toBe(1);
+  let user_id = judges[0].user_id;
+  let league = judges[0].league;
+  let season = judges[0].season;
+  await RegisterRefereeToSeasonLeague(user_id,league,season);
+  const ans = await DButils.execQuery(
+      `SELECT * FROM dbo.sadna_judges WHERE user_id = '${user_id}' and league='${league}' and season='${season}'`
+    );
+  expect(ans.length).toBe(1);
 });
 
 // assignUserasReferee
 test('test assignUserasReferee OK ',async()=>{
   expect.assertions(1);
-  let ids = await DButils.execQuery(
-    `SELECT user_id FROM dbo.sadna_roles`
-  );
-    let notIn=false
-    let user_id = 100
-    while(notIn == false){
-        let isFind =  ids.find((x) => x.user_id === user_id)
-        if(!isFind){
-            notIn = true
-        }
-        else{
-        user_id = user_id +1
-        }
-
-    }
-    await DButils.execQuery(
-      `INSERT INTO dbo.sadna_roles (user_id,role)
-       VALUES ('${user_id}','Fan')`
+  await assignUserasReferee(role_id_assignUserasRefereeExsist);
+  const ans = await DButils.execQuery(
+      `SELECT role FROM dbo.sadna_roles WHERE user_id = '${role_id_assignUserasRefereeExsist}'`
     );
 
-    await assignUserasReferee(user_id);
-    const ans = await DButils.execQuery(
-        `SELECT role FROM dbo.sadna_roles WHERE user_id = '${user_id}'`
-      );
-
-      await DButils.execQuery(
-        `DELETE FROM dbo.sadna_roles WHERE user_id = '${user_id}'`
-      );
-    expect(ans[0].role).toStrictEqual('Referee')
+  expect(ans[0].role).toStrictEqual('Referee')
     
 });
