@@ -12,7 +12,7 @@ afterAll(async () =>{
 
 test('test AddGames  GAME CREATED ',async()=>{
     const ans = await AddGames("2021/2022",'Spanish La Liga',1);
-    expect(ans).toBeUndefined()
+    expect(ans).toBeGreaterThan(0);
 },2000000);
 
 test('test AddGames ERROR GAME CREATED',async()=>{

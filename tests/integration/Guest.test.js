@@ -46,31 +46,29 @@ beforeAll(async () => {
 // LoginRequest Tesing
 test('test LoginRequest VALID ',async()=>{
     const ans = await LoginRequest(username_LoginRequest,password);
-    expect(ans.username).toStrictEqual(username_LoginRequest)
+    expect(ans.username).toStrictEqual(username_LoginRequest);
 });
 
 test('test LoginRequest NOT VALID Worng username ',async()=>{
     expect.assertions(1);
     const ans = await LoginRequest(null,'lady@56');
-    expect(ans).toStrictEqual(false)
+    expect(ans).toEqual(false);
 });
 
 // Register
 test('test Register  NOT VALID USERNAME',async()=>{
     expect.assertions(1);
     const ans = await Register(details_RegisterNoValideUserName.username,details_RegisterNoValideUserName.password,details_RegisterNoValideUserName.role,details_RegisterNoValideUserName);
-    expect(ans).toStrictEqual(false)
+    expect(ans).toEqual(false);
 });
 
 test('test Register  NOT VALID ROLE',async()=>{
-    expect.assertions(1);
+    expect.assertions(2);
     try{
         await Register(details_RegisterNoValideRole.username,details_RegisterNoValideRole.password,"not exsist role",details_RegisterNoValideRole);
     } catch(error){
-        expect(error).toStrictEqual({
-            "status": 409,
-            "message": "Unkown User Type - Please Pick Fan (More Elements will be added in the future)"
-         })
+        expect(error.status).toBe(409);
+        expect(error.message).toBe("Unkown User Type - Please Pick Fan (More Elements will be added in the future)");
     }   
 });
 

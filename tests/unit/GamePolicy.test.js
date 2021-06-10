@@ -16,7 +16,7 @@ test('Test addGamesByPolicy VALID ',async()=>{
         `DELETE FROM dbo.sadna_games WHERE Season = '${season}' and League ='${league}'`
       );
 
-    expect(ans).not.toBe(-1);
+    expect(ans).toBeGreaterThan(0);
     
 },200000);
 
@@ -24,7 +24,7 @@ test('Test addGamesByPolicy NOT VALID ',async()=>{
     expect.assertions(1);
     let season = 'season_test'
     let league = 'season_league_test'
-    let league_id = 10000    
+    let league_id = 10000;
     const ans =await addGamesByPolicy(season,league,league_id);
-    expect(ans).toStrictEqual(-1);
+    expect(ans).toStrictEqual(0);
 });

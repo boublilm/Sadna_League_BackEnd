@@ -29,6 +29,7 @@ test('test verifyLoggedIn LOGGED IN ',()=>{
     expect.assertions(1);
     login(1000);
     const ans =  verifyLoggedIn(1000);
+    logout(1000);
     expect(ans).toBe(true)
 });
 

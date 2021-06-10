@@ -43,7 +43,7 @@ async function deleteUserForTest(username){
 async function deleteGames(League){
     await DButils.execQuery(
         `DELETE FROM dbo.sadna_games WHERE League='${League}' `
-      )
+      );
 }
 
 exports.createUserForTest = createUserForTest;
