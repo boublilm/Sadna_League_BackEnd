@@ -64,7 +64,20 @@ async function RejisterJudgeUC(ref_name, league, season){
     }
 }
 
+async function AddGamesUC(league, season){
+    try{
+        const add_games_response = await axios_with_cookies.post(`${api_domain}/RoFA/AddGames`, {
+            league_name: league,
+            season: season
+        });
+        return add_games_response;
+    } catch(error){
+        return error;
+    }
+}
+
 exports.LoginUC = LoginUC;
 exports.LogoutUC = LogoutUC;
 exports.AssignRefereeUC = AssignRefereeUC;
 exports.RejisterJudgeUC = RejisterJudgeUC;
+exports.AddGamesUC = AddGamesUC;
